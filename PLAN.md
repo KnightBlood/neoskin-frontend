@@ -59,6 +59,16 @@ D:\WORKspace\NeoSkin\
 P1 已验证：`pnpm -r typecheck / test / build` 全绿；四个后端本机登录 → `/app-next/site/user` →
 `/app-next/admin/` 仪表盘均正常，0 console error；四端 `scripts/contract-check.mjs` 通过。
 
+### 0.5 仓库与发布节奏
+
+| 项 | 约定 |
+| --- | --- |
+| 远端 | `https://github.com/KnightBlood/neoskin-frontend.git` |
+| 分支 | `main`（唯一长期分支） |
+| 提交粒度 | 每个阶段一个 commit；前后端契约变更与 `docs/BACKEND-CONTRACT.md` 同步提交 |
+| 产物发布 | 先在本仓库 `pnpm -r build`，再 `scripts/publish.ps1 -Target <端口>`，端口仓库单独提交 |
+| 回滚 | 端口保持 `FRONTEND_MODE=legacy`；前端回滚只需重新发布上一版产物 |
+
 ---
 
 ## 1. 版本锁定
