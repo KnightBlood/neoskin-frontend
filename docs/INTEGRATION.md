@@ -214,6 +214,7 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | 用途 | 端点 |
 | --- | --- |
 | 仪表盘统计 | `GET /api/admin/dashboard`（新增，四端已实现） |
+| 站点配置 / 配色 / 积分 / 资源 | `GET|PUT /api/admin/options/{group}`（新增；`group=options|customize|score|resource`） |
 | 曲线 | `GET /admin/chart`（既有） |
 | 用户 | `GET /admin/users/list`、`PUT /admin/users/{uid}/{email,nickname,password,score,permission,verification}`、`DELETE /admin/users/{uid}` |
 | 玩家 | `GET /admin/players/list`、`PUT /admin/players/{pid}/{name,owner,textures}`、`DELETE /admin/players/{pid}` |

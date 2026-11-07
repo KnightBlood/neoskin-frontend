@@ -235,6 +235,23 @@ export function fetchStatus(http: HttpClient): Promise<AdminStatus> {
   return http.get<AdminStatus>('/admin/status')
 }
 
+export type OptionsGroupName = 'options' | 'customize' | 'score' | 'resource'
+
+export function fetchOptionsGroup(
+  http: HttpClient,
+  group: OptionsGroupName,
+): Promise<Record<string, unknown>> {
+  return http.get<Record<string, unknown>>(`/api/admin/options/${group}`)
+}
+
+export function saveOptionsGroup(
+  http: HttpClient,
+  group: OptionsGroupName,
+  payload: Record<string, unknown>,
+): Promise<BusinessResponse> {
+  return http.put<BusinessResponse>(`/api/admin/options/${group}`, payload)
+}
+
 export function fetchLanguageLines(
   http: HttpClient,
   page: number,

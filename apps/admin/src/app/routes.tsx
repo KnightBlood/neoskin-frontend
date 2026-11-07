@@ -3,11 +3,7 @@ import { AdminLayout } from './layout'
 import {
   CommunicationEditPage,
   CommunicationsPage,
-  CustomizePage,
   NotFoundPage,
-  OptionsPage,
-  ResourcePage,
-  ScorePage,
   UpdatePage,
 } from '../pages/pages'
 import { DashboardPage } from '../pages/dashboard'
@@ -18,6 +14,7 @@ import { StatusPage } from '../pages/status'
 import { I18nPage } from '../pages/i18n'
 import { PluginsPage } from '../pages/plugins'
 import { MarketPage } from '../pages/market'
+import { OptionsPage } from '../pages/options'
 
 export const routePaths = [
   '/',
@@ -46,10 +43,10 @@ export const routes: RouteObject[] = [
       { path: 'users', element: <UsersPage /> },
       { path: 'players', element: <PlayersPage /> },
       { path: 'reports', element: <ReportsPage /> },
-      { path: 'options', element: <OptionsPage /> },
-      { path: 'customize', element: <CustomizePage /> },
-      { path: 'score', element: <ScorePage /> },
-      { path: 'resource', element: <ResourcePage /> },
+      { path: 'options', element: <OptionsPage group="options" /> },
+      { path: 'customize', element: <OptionsPage group="customize" /> },
+      { path: 'score', element: <OptionsPage group="score" /> },
+      { path: 'resource', element: <OptionsPage group="resource" /> },
       { path: 'communications', element: <CommunicationsPage /> },
       { path: 'communications/:id', element: <CommunicationEditPage /> },
       { path: 'i18n', element: <I18nPage /> },

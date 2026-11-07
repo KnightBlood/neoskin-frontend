@@ -386,6 +386,16 @@ Content-Type: application/json
 
 `storage` 单位为 KB；`storageHuman` 与旧版 `KB`/`MB` 展示一致。
 
+#### `GET|PUT /api/admin/options/{group}`
+
+认证：管理员。`group`：`options`、`customize`、`score`、`resource`。
+
+- `GET` 返回该组选项的键值对象（值为字符串；布尔项为 `"true"`/`"false"`），
+  `options` 组的 `site_name`/`site_description`/`content_policy` 返回当前语言版本；
+  `score` 组额外返回 `sign_score_from`、`sign_score_to`。
+- `PUT` 接收同结构 JSON（布尔项可直接传 `true`/`false`），保存后返回 `{code:0,message}`。
+- 未知组返回 404；非管理员返回 403；匿名返回 401。
+
 #### `GET /api/admin/communications?page=1&per_page=15`
 
 认证：管理员（`Notification.Read` 或等价权限）。

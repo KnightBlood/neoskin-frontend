@@ -44,7 +44,12 @@ assert.ok(payload.features && typeof payload.features === 'object', 'bootstrap.f
 assert.ok(payload.plugins && typeof payload.plugins === 'object', 'bootstrap.plugins 必须是对象')
 
 // --- 用户中心（P3）/ 管理端（P4）：新增契约端点必须存在（匿名 401） ---
-for (const path of ['/api/user/inbox', '/api/user/reports', '/api/admin/dashboard']) {
+for (const path of [
+  '/api/user/inbox',
+  '/api/user/reports',
+  '/api/admin/dashboard',
+  '/api/admin/options/options',
+]) {
   const response = await get(path)
   assert.equal(response.status, 401, `${path} 匿名请求需要 401`)
   assert.match(
