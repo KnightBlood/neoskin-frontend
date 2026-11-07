@@ -43,17 +43,19 @@ NeoSkinFrontend/
 
 ## 当前状态
 
-**P1 完成（2026-11-07）**。已交付：
+**P2 完成（2026-11-07）**。已交付：
 
 | 区域 | 内容 |
 | --- | --- |
 | 站点认证 | 登录（`redirect` 回跳、记住我）、注册（角色名/昵称）、找回密码、重置密码、验证码 |
-| 站点壳 | 用户菜单、退出登录、深色模式、语言切换、未登录路由守卫 |
+| 站点壳 | 用户菜单、退出登录、深色模式、语言切换、未登录路由守卫、全局提示（React 19 兼容） |
+| 皮肤库 | 列表（模型/披风筛选、关键词、最新/最多收藏、我上传的、上传者过滤、分页）、详情（2D/3D/披风、衣柜、设头像、下载、举报、改名、切模型、隐私、删除）、上传（PNG 校验、Alex 自动识别、尺寸预检、积分预估、3D 预览、重复检测） |
 | 管理端 | 登录跳转、非管理员 403、仪表盘骨架 |
 | 四端后端 | `GET /api/bootstrap` + `/app-next/{site,admin}/*` 壳与静态托管；`FRONTEND_MODE=next` 时 `/`、`/admin` 302 到 SPA |
-| 自动化 | 四端 `contract-check.mjs` 通过；`tests/browser/flows.mjs` 覆盖 app-next 登录与仪表盘 |
+| 自动化 | 四端 `contract-check.mjs`（壳 + bootstrap + 皮肤库端点）；`tests/browser/flows.mjs` 覆盖 app-next 登录与仪表盘 |
 
-`pnpm -r typecheck && pnpm -r test && pnpm -r build` 全绿。
+`pnpm -r typecheck && pnpm -r test && pnpm -r build` 全绿；P2 已在 Go 生产构建上用浏览器走完
+上传 → 列表 → 详情 → 衣柜 → 举报 → 删除全流程，0 console error。
 
 ### 本地开发
 
@@ -81,6 +83,7 @@ node scripts\contract-check.mjs --base http://127.0.0.1:8080
 | TypeScript | 7.0.2 |
 | TDesign React | 1.18.6 |
 | Ant Design | 6.7.0 |
+| skinview3d | 3.4.2（内置 three 0.156.1，按需懒加载） |
 | Node.js | 24.12.0 LTS |
 | pnpm | 12.16.1 |
 

@@ -171,6 +171,21 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 - 业务错误走现有 `t(ctx, key)` 等价翻译机制；
 - 管理端端点沿用现有 scope（`UsersManagement.Read` 等），Session 用户按权限判定。
 
+### 5.1 P2 皮肤库复用既有端点
+
+皮肤库**不新增契约端点**，直接复用 PHP 版已有路由（端口需保持语义一致）：
+
+| 用途 | 端点 |
+| --- | --- |
+| 列表 / 详情 | `GET /skinlib/list`、`GET /skinlib/info/{tid}`、`GET /texture/{tid}` |
+| 上传 / 管理 | `POST /texture`、`PUT /texture/{tid}/name`、`PUT /texture/{tid}/type`、`PUT /texture/{tid}/privacy`、`DELETE /texture/{tid}` |
+| 衣柜 / 头像 | `GET /user/closet/ids`、`POST /user/closet`、`DELETE /user/closet/{tid}`、`POST /user/profile/avatar` |
+| 举报 / 下载 | `POST /skinlib/report`、`GET /raw/{tid}` |
+| 预览 / 纹理 | `GET /preview/{tid}`（默认 WebP，`?png` 返回 PNG）、`GET /textures/{hash}` |
+
+> 前端在 `<picture>` 中同时使用 WebP 与 PNG，端口必须支持两种；3D 预览直接加载
+> `/textures/{hash}`，因此响应需为原始 PNG。
+
 ---
 
 ## 6. 开关与配置
@@ -206,7 +221,9 @@ node NeoSkinFrontend/scripts/contract-check.mjs --base http://127.0.0.1:8080
 - 页面无 404 资源、无 console error；
 - 未登录访问 `/app-next/admin/` 显示 403；
 - 登录后刷新不丢会话；
-- 切换语言后文案与 `/lang/<locale>.js` 一致。
+- 切换语言后文案与 `/lang/<locale>.js` 一致；
+- `/app-next/site/skinlib` 能加载列表，上传 PNG 后可在详情页 2D/3D 切换；
+- `/preview/{tid}` 默认返回 `image/webp`，带 `png` 查询返回 `image/png`。
 
 ---
 
@@ -220,7 +237,7 @@ FRONTEND_MODE=legacy
 
 ---
 
-## 8. 四端实现现状（2026-11-07）
+## 9. 四端实现现状（2026-11-07）
 
 | 端口 | 实现入口 | 静态托管 |
 | --- | --- | --- |

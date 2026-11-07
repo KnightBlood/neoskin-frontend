@@ -43,4 +43,54 @@ assert.ok(payload.options && typeof payload.options === 'object', 'bootstrap.opt
 assert.ok(payload.features && typeof payload.features === 'object', 'bootstrap.features 必须是对象')
 assert.ok(payload.plugins && typeof payload.plugins === 'object', 'bootstrap.plugins 必须是对象')
 
+// --- 皮肤库（P2）：列表 + 详情 + 预览 ---
+const listResponse = await get('/skinlib/list?filter=skin&sort=time&page=1')
+assert.equal(listResponse.status, 200, '/skinlib/list 需要 200')
+assert.match(
+  listResponse.headers.get('content-type') ?? '',
+  /^application\/json/,
+  '/skinlib/list Content-Type 需要 application/json',
+)
+const page = await listResponse.json()
+assert.ok(Array.isArray(page.data), '/skinlib/list data 必须是数组')
+assert.equal(typeof page.current_page, 'number', '/skinlib/list current_page 必须是数字')
+assert.equal(typeof page.last_page, 'number', '/skinlib/list last_page 必须是数字')
+assert.equal(typeof page.total, 'number', '/skinlib/list total 必须是数字')
+
+for (const item of page.data.slice(0, 3)) {
+  for (const key of ['tid', 'name', 'type', 'uploader', 'nickname']) {
+    assert.ok(key in item, `/skinlib/list 项缺少 ${key}`)
+  }
+  assert.ok(['steve', 'alex', 'cape'].includes(item.type), '材质 type 非法')
+  assert.equal(typeof item.likes, 'number', '/skinlib/list 项 likes 必须是数字')
+  assert.equal(typeof item.public, 'boolean', '/skinlib/list 项 public 必须是布尔值')
+}
+
+const capeResponse = await get('/skinlib/list?filter=cape&sort=time&page=1')
+assert.equal(capeResponse.status, 200, '/skinlib/list?filter=cape 需要 200')
+const capes = await capeResponse.json()
+assert.ok(Array.isArray(capes.data), '披风列表 data 必须是数组')
+
+const sample = page.data[0] ?? capes.data[0]
+if (sample) {
+  const infoResponse = await get(`/skinlib/info/${sample.tid}`)
+  assert.equal(infoResponse.status, 200, `/skinlib/info/${sample.tid} 需要 200`)
+  const texture = await infoResponse.json()
+  for (const key of ['tid', 'name', 'type', 'hash', 'public']) {
+    assert.ok(key in texture, `/skinlib/info/${sample.tid} 缺少 ${key}`)
+  }
+
+  const webp = await get(`/preview/${sample.tid}?height=150`, 'image/webp')
+  assert.equal(webp.status, 200, `/preview/${sample.tid} 需要 200`)
+  assert.match(webp.headers.get('content-type') ?? '', /^image\//, '/preview 需要图片类型')
+
+  const png = await get(`/preview/${sample.tid}?height=150&png=1`, 'image/png')
+  assert.equal(png.status, 200, `/preview/${sample.tid}?png 需要 200`)
+  assert.match(png.headers.get('content-type') ?? '', /^image\/png/, '/preview?png 必须是 PNG')
+
+  const raw = await get(`/textures/${texture.hash}`, 'image/png')
+  assert.equal(raw.status, 200, `/textures/${texture.hash} 需要 200`)
+  assert.match(raw.headers.get('content-type') ?? '', /^image\/png/, '/textures/{hash} 必须是 PNG')
+}
+
 console.log(`contract check passed: ${base}`)

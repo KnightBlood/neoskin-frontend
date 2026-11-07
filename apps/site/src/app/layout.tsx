@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
-import { Button, Dropdown, MessagePlugin } from 'tdesign-react'
+import { Button, Dropdown } from 'tdesign-react'
 import { useTranslation } from 'react-i18next'
 import { useApp } from './context'
+import { ToastHost, toast } from '../lib/toast'
 
 const fallbackLocales = [
   'zh_CN',
@@ -38,7 +39,7 @@ export function SiteLayout() {
 
   async function toggleDarkMode() {
     if (!bootstrap.user) {
-      MessagePlugin.warning('登录后才能切换深色模式')
+      toast.warning('登录后才能切换深色模式')
       return
     }
     setBusy(true)
@@ -48,7 +49,7 @@ export function SiteLayout() {
       setDark(next)
       document.documentElement.dataset.theme = next ? 'dark' : 'light'
     } catch {
-      MessagePlugin.error('切换失败，请稍后再试')
+      toast.error('切换失败，请稍后再试')
     } finally {
       setBusy(false)
     }
@@ -121,6 +122,7 @@ export function SiteLayout() {
       <footer className="site-footer">
         {bootstrap.siteName} · {bootstrap.version}
       </footer>
+      <ToastHost />
     </div>
   )
 }

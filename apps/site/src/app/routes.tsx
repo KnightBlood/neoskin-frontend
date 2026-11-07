@@ -11,10 +11,11 @@ import {
   PlayersPage,
   ProfilePage,
   ReportsPage,
-  SkinlibPage,
-  UploadPage,
   UserDashboardPage,
 } from '../pages/pages'
+import { SkinlibListPage } from '../pages/skinlib/list'
+import { SkinlibDetailPage } from '../pages/skinlib/detail'
+import { SkinlibUploadPage } from '../pages/skinlib/upload'
 import {
   ForgotPage,
   LoginPage,
@@ -40,6 +41,7 @@ export const routePaths = [
   '/auth/forgot',
   '/auth/reset/:uid',
   '/skinlib',
+  '/skinlib/show/:tid',
   '/skinlib/upload',
   '/user',
   '/user/profile',
@@ -60,12 +62,13 @@ export const routes: RouteObject[] = [
       { path: 'auth/register', element: <RegisterPage /> },
       { path: 'auth/forgot', element: <ForgotPage /> },
       { path: 'auth/reset/:uid', element: <ResetPage /> },
-      { path: 'skinlib', element: <SkinlibPage /> },
+      { path: 'skinlib', element: <SkinlibListPage /> },
+      { path: 'skinlib/show/:tid', element: <SkinlibDetailPage /> },
       {
         path: 'skinlib/upload',
         element: (
           <RequireAuth>
-            <UploadPage />
+            <SkinlibUploadPage />
           </RequireAuth>
         ),
       },

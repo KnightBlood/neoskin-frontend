@@ -29,14 +29,6 @@ export function HomePage() {
   )
 }
 
-export function SkinlibPage() {
-  return <Page title="皮肤库">P2 将实现皮肤浏览与筛选。</Page>
-}
-
-export function UploadPage() {
-  return <Page title="上传材质">P2 将实现上传与 3D 预览。</Page>
-}
-
 export function UserDashboardPage() {
   return <Page title="用户中心">P3 将实现仪表盘。</Page>
 }

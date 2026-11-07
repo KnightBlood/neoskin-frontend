@@ -10,6 +10,7 @@ describe('site routes', () => {
       '/auth/forgot',
       '/auth/reset/:uid',
       '/skinlib',
+      '/skinlib/show/:tid',
       '/skinlib/upload',
       '/user',
       '/user/profile',

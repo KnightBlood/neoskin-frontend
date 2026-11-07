@@ -6,14 +6,26 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    proxy: {
-      '/api': 'http://127.0.0.1:8080',
-      '/auth': 'http://127.0.0.1:8080',
-      '/lang': 'http://127.0.0.1:8080',
-      '/avatar': 'http://127.0.0.1:8080',
-      '/preview': 'http://127.0.0.1:8080',
-      '/textures': 'http://127.0.0.1:8080',
-    },
+    // 开发期把后端路由全部转发到本地端口（SPA 自身资源在 /app-next/site 下）。
+    proxy: Object.fromEntries(
+      [
+        '/api',
+        '/auth',
+        '/lang',
+        '/avatar',
+        '/preview',
+        '/textures',
+        '/skinlib',
+        '/texture',
+        '/raw',
+        '/csl',
+        '/user',
+        '/oauth',
+        '/player',
+        '/admin',
+        '/setup',
+      ].map((path) => [path, 'http://127.0.0.1:8080']),
+    ),
   },
   build: {
     outDir: 'dist',
