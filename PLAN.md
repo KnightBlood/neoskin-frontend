@@ -2,8 +2,8 @@
 
 > 定位：Blessing Skin Server 6.0.11 移植项目的**共享前端**，独立于任何后端。
 > 目标版本：React 19.3 + Vite 8.3.6 + TypeScript 7.0，站点端 TDesign 1.18.6、管理端 antd 6.7.0。
-> 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成；P3 前端已完成，
-> 四端已补 `/api/user/inbox`、`/api/user/inbox/{id}`、`/api/user/reports`（本地实现，待推送）。
+> 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成；P3 已完成；
+> P4 管理端前端完成仪表盘/用户/玩家/举报/状态（其余页面下一轮）。
 > 仓库：<https://github.com/KnightBlood/neoskin-frontend>（`main`）。
 
 ---
@@ -53,7 +53,7 @@ D:\WORKspace\NeoSkin\
 | P1 契约 + 认证 | ✅ | 四端 `/api/bootstrap` + SPA 壳、登录/注册/找回/重置、用户菜单/深色模式/语言切换、管理端守卫、Playwright app-next 流程 |
 | P2 皮肤库 | ✅ | 浏览、筛选/排序/搜索、详情、上传、衣柜、举报、2D/3D/披风预览 |
 | P3 用户中心 | ✅ | 仪表盘（积分/使用量/签到/邮箱验证）、资料、角色、衣柜、OAuth、站内信（列表/详情/已读）、我的举报 |
-| P4 管理端 | ⬜ | 仪表盘、用户、玩家、举报、配置、翻译、插件、市场、更新 |
+| P4 管理端 | 🟡 | 仪表盘（统计 + SVG 曲线）、用户管理（邮箱/昵称/密码/积分/权限/验证/删除）、玩家管理（改名/拥有者/材质/删除）、举报审核、运行状态；配置/翻译/插件/市场/更新下一轮 |
 | P5 通信编辑器 | ⬜ | 画布、属性面板、源码导入、实时预览、撤回 |
 | P6 切换验收 | ⬜ | `FRONTEND_MODE=next` 全站、性能/可访问性、四端回归 |
 
@@ -77,6 +77,10 @@ OAuth 应用创建（密钥仅显示一次）/改名/改回调/删除；站内�
 | `GET /api/user/inbox` | ✅ | ✅ | ✅ | ✅ |
 | `GET /api/user/inbox/{id}` | ✅ | ✅ | ✅ | ✅ |
 | `GET /api/user/reports` | ✅ | ✅ | ✅ | ✅ |
+| `GET /api/admin/dashboard`（P4） | ✅ | ✅ | ✅ | ✅ |
+
+P4 前端已验证（Go 生产构建 + 浏览器）：管理端仪表盘统计/31 天曲线、用户搜索与邮箱/昵称/密码/积分/权限/
+验证/删除、玩家改名/拥有者/材质/删除、举报审核（删除/封禁/拒绝）、运行状态；0 console error。
 
 ### 0.5 仓库与发布节奏
 
@@ -349,7 +353,7 @@ bootstrap JSON 包含：`contractVersion`、`apiBase`、`locale`、`siteName`、
 | PHP/AdminLTE 组件 | React 方案 |
 | --- | --- |
 | 布局 | `Layout` + `Menu` + `Breadcrumb` |
-| 统计卡/图表 | `Statistic` + `Card` + ECharts（按需） |
+| 统计卡/图表 | `Statistic` + `Card` + 内联 SVG（不引入 ECharts，保持依赖精简） |
 | 表格 | `Table` + `Pagination` + `Space` |
 | 筛选/搜索 | `Form` + `Input.Search` + `Select` |
 | 编辑弹窗 | `Modal` + `Form` |
@@ -419,7 +423,7 @@ pnpm -r build                       # apps/site/dist、apps/admin/dist
 | P1 契约 + 认证 | 1 周 | SPA 壳读取、`/api/bootstrap` 消费、首页、登录/注册/找回/重置/验证/绑定 | **已完成（2026-11-07）**：四端壳 + bootstrap + 登录/注册/找回/重置；Playwright app-next 登录用例 |
 | P2 皮肤库 | 1 周 | 浏览/详情/上传/举报、2D/3D/披风预览 | **已完成（2026-11-07）**：上传→列表→详情闭环；Go 生产构建全流程 0 console error |
 | P3 用户中心 | 1 周 | 仪表盘、资料、角色、衣柜、举报、站内信、OAuth | **已完成（2026-11-07）**：前端 + 四端新增契约端点；Go 已联调，其余端口待 CI |
-| P4 管理端 | 1.5 周 | 仪表盘、用户、玩家、举报、配置、翻译、插件、市场、更新 | CRUD 与契约端点对齐 |
+| P4 管理端 | 1.5 周 | 仪表盘、用户、玩家、举报、配置、翻译、插件、市场、更新 | **部分完成（2026-11-07）**：仪表盘/用户/玩家/举报/状态；Go 生产构建已联调，0 console error |
 | P5 通信编辑器 | 0.5 周 | 画布、属性面板、源码导入、实时预览、撤回 | 与 `communications` 契约一致 |
 | P6 切换验收 | 1 周 | `FRONTEND_MODE=next`、性能/可访问性、四端口回归、文档 | 174 路由回归通过；可一键回滚 |
 

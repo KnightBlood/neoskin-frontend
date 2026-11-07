@@ -209,6 +209,19 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 > 返回结构以 `docs/BACKEND-CONTRACT.md` §7.2 为准；`scripts/contract-check.mjs`
 > 会额外断言这三个路径匿名访问返回 `401 application/json`。
 
+### 5.3 P4 管理端
+
+| 用途 | 端点 |
+| --- | --- |
+| 仪表盘统计 | `GET /api/admin/dashboard`（新增，四端已实现） |
+| 曲线 | `GET /admin/chart`（既有） |
+| 用户 | `GET /admin/users/list`、`PUT /admin/users/{uid}/{email,nickname,password,score,permission,verification}`、`DELETE /admin/users/{uid}` |
+| 玩家 | `GET /admin/players/list`、`PUT /admin/players/{pid}/{name,owner,textures}`、`DELETE /admin/players/{pid}` |
+| 举报 | `GET /admin/reports/list`、`PUT /admin/reports/{id}`（`action=delete|ban|reject`） |
+| 状态 | `GET /admin/status` |
+
+> 管理端页面使用 Session + CSRF；`/api/admin/dashboard` 匿名返回 401、非管理员返回 403。
+
 ---
 
 ## 6. 开关与配置

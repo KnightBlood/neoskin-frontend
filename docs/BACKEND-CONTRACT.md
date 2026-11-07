@@ -375,6 +375,16 @@ Content-Type: application/json
 
 `status`：`0` 待处理、`1` 已解决、`2` 已拒绝（与 PHP `Report` 常量一致）。
 
+#### `GET /api/admin/dashboard`
+
+认证：管理员。返回仪表盘统计（图表继续复用 `GET /admin/chart`）：
+
+```json
+{ "users": 12, "players": 20, "textures": 37, "storage": 2048, "storageHuman": "2.0MB" }
+```
+
+`storage` 单位为 KB；`storageHuman` 与旧版 `KB`/`MB` 展示一致。
+
 #### `GET /api/admin/communications?page=1&per_page=15`
 
 认证：管理员（`Notification.Read` 或等价权限）。

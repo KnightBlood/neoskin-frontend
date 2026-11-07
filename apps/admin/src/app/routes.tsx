@@ -4,20 +4,20 @@ import {
   CommunicationEditPage,
   CommunicationsPage,
   CustomizePage,
-  DashboardPage,
   I18nPage,
   MarketPage,
   NotFoundPage,
   OptionsPage,
-  PlayersPage,
   PluginsPage,
-  ReportsPage,
   ResourcePage,
   ScorePage,
-  StatusPage,
   UpdatePage,
-  UsersPage,
 } from '../pages/pages'
+import { DashboardPage } from '../pages/dashboard'
+import { UsersPage } from '../pages/users'
+import { PlayersPage } from '../pages/players'
+import { ReportsPage } from '../pages/reports'
+import { StatusPage } from '../pages/status'
 
 export const routePaths = [
   '/',

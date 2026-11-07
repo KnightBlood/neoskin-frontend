@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider, theme } from 'antd'
+import zhCN from 'antd/locale/zh_CN'
 import { I18nextProvider } from 'react-i18next'
 import type { i18n as I18nInstance } from 'i18next'
 import { AppContext, type AppContextValue } from './context'
@@ -26,7 +27,10 @@ export function AppProviders({
 }) {
   const dark = value.bootstrap.user?.darkMode === true
   const content = (
-    <ConfigProvider theme={{ algorithm: dark ? theme.darkAlgorithm : theme.defaultAlgorithm }}>
+    <ConfigProvider
+      locale={zhCN}
+      theme={{ algorithm: dark ? theme.darkAlgorithm : theme.defaultAlgorithm }}
+    >
       <AppContext.Provider value={value}>{children}</AppContext.Provider>
     </ConfigProvider>
   )

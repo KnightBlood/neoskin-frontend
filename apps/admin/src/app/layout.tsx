@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router'
-import { Layout, Menu } from 'antd'
+import { App as AntApp, Layout, Menu } from 'antd'
 import { useApp } from './context'
 
 const items = [
@@ -29,19 +29,24 @@ export function AdminLayout() {
       .sort((a, b) => b.length - a.length)[0] ?? '/'
 
   return (
-    <Layout className="admin-shell">
-      <Layout.Sider width={220} theme="light">
-        <div className="admin-brand">{bootstrap.siteName}</div>
-        <Menu mode="inline" selectedKeys={[selected]} items={items} />
-      </Layout.Sider>
-      <Layout>
-        <Layout.Header className="admin-header">
-          <span>{bootstrap.user?.nickname ?? '未登录'}</span>
-        </Layout.Header>
-        <Layout.Content className="admin-main">
-          <Outlet />
-        </Layout.Content>
+    <AntApp>
+      <Layout className="admin-shell">
+        <Layout.Sider width={220} theme="light">
+          <div className="admin-brand">{bootstrap.siteName}</div>
+          <Menu mode="inline" selectedKeys={[selected]} items={items} />
+        </Layout.Sider>
+        <Layout>
+          <Layout.Header className="admin-header">
+            <a href="/app-next/site/" className="admin-header-link">
+              站点首页
+            </a>
+            <span>{bootstrap.user?.nickname ?? '未登录'}</span>
+          </Layout.Header>
+          <Layout.Content className="admin-main">
+            <Outlet />
+          </Layout.Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </AntApp>
   )
 }
