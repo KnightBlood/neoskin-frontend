@@ -2,7 +2,8 @@
 
 > 定位：Blessing Skin Server 6.0.11 移植项目的**共享前端**，独立于任何后端。
 > 目标版本：React 19.3 + Vite 8.3.6 + TypeScript 7.0，站点端 TDesign 1.18.6、管理端 antd 6.7.0。
-> 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成。
+> 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成；P3 前端已完成，
+> 站内信/我的举报等待四端补齐 `/api/user/inbox`、`/api/user/reports`。
 > 仓库：<https://github.com/KnightBlood/neoskin-frontend>（`main`）。
 
 ---
@@ -51,7 +52,7 @@ D:\WORKspace\NeoSkin\
 | P0 基座 | ✅ | workspace、两个 app、`core`/`contract`、Vite、Vitest、CI |
 | P1 契约 + 认证 | ✅ | 四端 `/api/bootstrap` + SPA 壳、登录/注册/找回/重置、用户菜单/深色模式/语言切换、管理端守卫、Playwright app-next 流程 |
 | P2 皮肤库 | ✅ | 浏览、筛选/排序/搜索、详情、上传、衣柜、举报、2D/3D/披风预览 |
-| P3 用户中心 | ⬜ | 仪表盘、资料、角色、衣柜、举报、站内信、OAuth |
+| P3 用户中心 | 🟡 | 仪表盘（积分/使用量/签到/邮箱验证）、资料、角色、衣柜、OAuth 已完成；站内信/举报页面已完成，等待四端补齐 `/api/user/inbox`、`/api/user/reports` |
 | P4 管理端 | ⬜ | 仪表盘、用户、玩家、举报、配置、翻译、插件、市场、更新 |
 | P5 通信编辑器 | ⬜ | 画布、属性面板、源码导入、实时预览、撤回 |
 | P6 切换验收 | ⬜ | `FRONTEND_MODE=next` 全站、性能/可访问性、四端回归 |
@@ -63,6 +64,11 @@ P2 已验证（Go 生产构建 + 浏览器全流程）：登录 → `/skinlib` �
 上传 Steve/Alex/披风 → 详情 2D/3D → 衣柜增删 → 改名/切模型/隐私/举报/下载/删除 → 重复上传提示，
 0 console error。期间修复：TDesign `MessagePlugin` 依赖 React 19 已移除的 `ReactDOM.render`，
 改为仓库内 `lib/toast.tsx`（声明式 `<Message>` + 队列）；卡片图片补显式高度避免懒加载 0 尺寸。
+
+P3 前端已验证（Go 生产构建 + 浏览器全流程）：仪表盘积分/使用量/签到/积分说明、资料页昵称/头像重置/
+密码一致性校验、角色新增/改名/清除材质/删除/3D 预览、衣柜筛选/选择/3D/应用至角色/改名/设为头像/移除、
+OAuth 应用创建（密钥仅显示一次）/改名/改回调/删除；站内信与我的举报在端点缺失时显示提示而不白屏。
+签名/积分变化后通过 `refreshBootstrap()` 同步侧栏，0 console error。
 
 ### 0.5 仓库与发布节奏
 
@@ -280,6 +286,9 @@ bootstrap JSON 包含：`contractVersion`、`apiBase`、`locale`、`siteName`、
 > **页面骨架与守卫**；邮箱验证、绑定邮箱页面留到 P3。
 > P2 已实现：`/skinlib`（列表/筛选/搜索/排序/上传者/衣柜）、`/skinlib/show/:tid`（2D/3D/披风、
 > 改名/切模型/隐私/举报/下载/删除/设头像）、`/skinlib/upload`（PNG 校验、Alex 自动识别、积分预估、3D 预览）。
+> P3 已实现（前端）：用户中心侧栏、`/user`（积分/使用量/签到）、`/user/profile`、`/user/player`、
+> `/user/closet`、`/user/inbox`、`/user/inbox/:id`、`/user/reports`、`/user/oauth/manage`；
+> 站内信与举报页依赖 `GET /api/user/inbox`、`GET /api/user/reports`（契约见 §3.5）。
 
 ### 4.2 `apps/admin`（antd）
 
@@ -400,7 +409,7 @@ pnpm -r build                       # apps/site/dist、apps/admin/dist
 | P0 基座 | 1 周 | workspace、两个 app 骨架、`core`/`contract`、请求层、i18n、主题、CI | `pnpm -r build` 通过；空壳页可访问；契约类型可编译 |
 | P1 契约 + 认证 | 1 周 | SPA 壳读取、`/api/bootstrap` 消费、首页、登录/注册/找回/重置/验证/绑定 | **已完成（2026-11-07）**：四端壳 + bootstrap + 登录/注册/找回/重置；Playwright app-next 登录用例 |
 | P2 皮肤库 | 1 周 | 浏览/详情/上传/举报、2D/3D/披风预览 | **已完成（2026-11-07）**：上传→列表→详情闭环；Go 生产构建全流程 0 console error |
-| P3 用户中心 | 1 周 | 仪表盘、资料、角色、衣柜、举报、站内信、OAuth | 无 console error；分页/已读正确 |
+| P3 用户中心 | 1 周 | 仪表盘、资料、角色、衣柜、举报、站内信、OAuth | **前端已完成（2026-11-07）**：Go 生产构建验证仪表盘/资料/角色/衣柜/OAuth；站内信/举报待四端补端点 |
 | P4 管理端 | 1.5 周 | 仪表盘、用户、玩家、举报、配置、翻译、插件、市场、更新 | CRUD 与契约端点对齐 |
 | P5 通信编辑器 | 0.5 周 | 画布、属性面板、源码导入、实时预览、撤回 | 与 `communications` 契约一致 |
 | P6 切换验收 | 1 周 | `FRONTEND_MODE=next`、性能/可访问性、四端口回归、文档 | 174 路由回归通过；可一键回滚 |
@@ -470,7 +479,7 @@ pnpm -r build                       # apps/site/dist、apps/admin/dist
 - [ ] bootstrap 注入与 `/api/bootstrap` 两条路径都能启动
 - [ ] 登录态、CSRF、401/419/403、语言、深色模式正确
 - [x] 皮肤库上传/详情/预览/举报闭环（P2，Go 生产构建 + 浏览器验证）
-- [ ] 用户中心（资料/角色/衣柜/举报/站内信/OAuth）闭环
+- [x] 用户中心（资料/角色/衣柜/OAuth）闭环；举报/站内信前端完成，待四端补契约端点
 - [ ] 管理端 CRUD、通信发布/撤回、插件、更新闭环
 - [ ] 字段/文案/语言键与 PHP 版一致
 - [ ] 四个端口 `contract-check` 全绿；Playwright 全绿

@@ -186,6 +186,28 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 > 前端在 `<picture>` 中同时使用 WebP 与 PNG，端口必须支持两种；3D 预览直接加载
 > `/textures/{hash}`，因此响应需为原始 PNG。
 
+### 5.2 P3 用户中心
+
+仪表盘、资料、角色、衣柜、OAuth 复用既有端点：
+
+| 用途 | 端点 |
+| --- | --- |
+| 仪表盘 / 签到 | `GET /user/score-info`、`POST /user/sign`、`POST /user/email-verification` |
+| 资料 | `POST /user/profile?action=nickname|password|email|delete`、`POST /user/profile/avatar` |
+| 角色 | `GET /user/player/list`、`POST /user/player`、`PUT /user/player/{pid}/name`、`PUT /user/player/{pid}/textures`、`DELETE /user/player/{pid}/textures`、`DELETE /user/player/{pid}` |
+| 衣柜 | `GET /user/closet/list`、`GET /user/closet/ids`、`PUT /user/closet/{tid}`、`DELETE /user/closet/{tid}` |
+| OAuth | `GET/POST /oauth/clients`、`PUT/DELETE /oauth/clients/{id}` |
+
+站内信与我的举报需要**新增契约端点**（尚未在四端实现时，前端显示提示而非白屏）：
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| GET | `/api/user/inbox?page=1&per_page=10` | 站内信分页（含 `unread`） |
+| GET | `/api/user/inbox/{id}` | 详情（自动已读，`{code,data}`） |
+| GET | `/api/user/reports?page=1&per_page=10` | 我的举报分页 |
+
+> 返回结构以 `docs/BACKEND-CONTRACT.md` §7.2 为准。
+
 ---
 
 ## 6. 开关与配置
@@ -223,7 +245,10 @@ node NeoSkinFrontend/scripts/contract-check.mjs --base http://127.0.0.1:8080
 - 登录后刷新不丢会话；
 - 切换语言后文案与 `/lang/<locale>.js` 一致；
 - `/app-next/site/skinlib` 能加载列表，上传 PNG 后可在详情页 2D/3D 切换；
-- `/preview/{tid}` 默认返回 `image/webp`，带 `png` 查询返回 `image/png`。
+- `/preview/{tid}` 默认返回 `image/webp`，带 `png` 查询返回 `image/png`；
+- `/app-next/site/user` 能签到、显示积分/使用量，角色与衣柜可增删改；
+- `/app-next/site/user/oauth/manage` 可创建应用并只显示一次密钥；
+- `/api/user/inbox`、`/api/user/reports` 返回分页 JSON（未实现时页面显示提示）。
 
 ---
 

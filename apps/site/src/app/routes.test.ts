@@ -17,6 +17,7 @@ describe('site routes', () => {
       '/user/player',
       '/user/closet',
       '/user/inbox',
+      '/user/inbox/:id',
       '/user/reports',
       '/user/oauth/manage',
     ]) {
@@ -26,6 +27,18 @@ describe('site routes', () => {
 
   it('mounts every route under the site layout', () => {
     expect(routes).toHaveLength(1)
-    expect(routes[0]?.children?.length).toBeGreaterThanOrEqual(14)
+    expect(routes[0]?.children?.length).toBeGreaterThanOrEqual(10)
+
+    const userRoute = routes[0]?.children?.find((route) => route.path === 'user')
+    expect(userRoute?.children?.map((route) => route.path ?? '(index)')).toEqual([
+      '(index)',
+      'profile',
+      'player',
+      'closet',
+      'inbox',
+      'inbox/:id',
+      'reports',
+      'oauth/manage',
+    ])
   })
 })

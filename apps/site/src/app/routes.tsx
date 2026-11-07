@@ -2,20 +2,18 @@ import { createBrowserRouter, Navigate, useLocation, type RouteObject } from 're
 import type { ReactElement } from 'react'
 import { SiteLayout } from './layout'
 import { useApp } from './context'
-import {
-  ClosetPage,
-  HomePage,
-  InboxPage,
-  NotFoundPage,
-  OAuthPage,
-  PlayersPage,
-  ProfilePage,
-  ReportsPage,
-  UserDashboardPage,
-} from '../pages/pages'
+import { HomePage, NotFoundPage } from '../pages/pages'
 import { SkinlibListPage } from '../pages/skinlib/list'
 import { SkinlibDetailPage } from '../pages/skinlib/detail'
 import { SkinlibUploadPage } from '../pages/skinlib/upload'
+import { UserShell } from '../pages/user/shell'
+import { UserDashboardPage } from '../pages/user/dashboard'
+import { ProfilePage } from '../pages/user/profile'
+import { PlayersPage } from '../pages/user/players'
+import { ClosetPage } from '../pages/user/closet'
+import { InboxMessagePage, InboxPage } from '../pages/user/inbox'
+import { ReportsPage } from '../pages/user/reports'
+import { OAuthPage } from '../pages/user/oauth'
 import {
   ForgotPage,
   LoginPage,
@@ -48,6 +46,7 @@ export const routePaths = [
   '/user/player',
   '/user/closet',
   '/user/inbox',
+  '/user/inbox/:id',
   '/user/reports',
   '/user/oauth/manage',
   '*',
@@ -76,57 +75,19 @@ export const routes: RouteObject[] = [
         path: 'user',
         element: (
           <RequireAuth>
-            <UserDashboardPage />
+            <UserShell />
           </RequireAuth>
         ),
-      },
-      {
-        path: 'user/profile',
-        element: (
-          <RequireAuth>
-            <ProfilePage />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: 'user/player',
-        element: (
-          <RequireAuth>
-            <PlayersPage />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: 'user/closet',
-        element: (
-          <RequireAuth>
-            <ClosetPage />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: 'user/inbox',
-        element: (
-          <RequireAuth>
-            <InboxPage />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: 'user/reports',
-        element: (
-          <RequireAuth>
-            <ReportsPage />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: 'user/oauth/manage',
-        element: (
-          <RequireAuth>
-            <OAuthPage />
-          </RequireAuth>
-        ),
+        children: [
+          { index: true, element: <UserDashboardPage /> },
+          { path: 'profile', element: <ProfilePage /> },
+          { path: 'player', element: <PlayersPage /> },
+          { path: 'closet', element: <ClosetPage /> },
+          { path: 'inbox', element: <InboxPage /> },
+          { path: 'inbox/:id', element: <InboxMessagePage /> },
+          { path: 'reports', element: <ReportsPage /> },
+          { path: 'oauth/manage', element: <OAuthPage /> },
+        ],
       },
       { path: '*', element: <NotFoundPage /> },
     ],
