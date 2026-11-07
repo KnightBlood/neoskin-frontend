@@ -313,7 +313,8 @@ Content-Type: application/json
 | GET | `/auth/captcha` | 验证码图片 |
 
 写操作端点（登录/注册/资料/材质/举报/管理端 CRUD）全部沿用现有路径与字段，
-前端不新增 `PUT /api/...` 变体。
+前端不新增 `PUT /api/...` 变体。例外：`POST /admin/i18n` 原本 302 回旧页面，
+四个端口在 `Accept: application/json` 时改为返回 `{code:0,message}`（与其它写端点一致）。
 
 ### 7.2 新增端点（v1 必须实现）
 

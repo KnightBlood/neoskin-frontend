@@ -133,6 +133,20 @@ body {
   border-radius: 2px;
 }
 
+.admin-i18n-text {
+  max-width: 520px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-market-desc {
+  min-height: 44px;
+  margin: 0;
+  color: var(--ant-color-text-secondary, #8c8c8c);
+  font-size: 13px;
+}
+
 .page h1 {
   margin: 0 0 16px;
   font-size: 22px;

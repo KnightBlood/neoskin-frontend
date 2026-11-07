@@ -66,6 +66,40 @@ export interface AdminStatus {
   plugins?: unknown[]
 }
 
+/** `GET /admin/i18n/list` 的单条。 */
+export interface LanguageLine {
+  id: number
+  group: string
+  key: string
+  text: Record<string, string>
+  created_at?: string
+  updated_at?: string
+}
+
+/** `GET /admin/plugins/data` 的单条。 */
+export interface AdminPlugin {
+  name: string
+  title: string
+  description: string
+  version: string
+  enabled: boolean
+  readme: boolean
+  config: boolean
+  icon?: Record<string, string>
+}
+
+/** `GET /admin/plugins/market/list` 的单条。 */
+export interface MarketPlugin {
+  name: string
+  title: string
+  description: string
+  version: string
+  dist: { url: string }
+  dependencies?: { all?: string[]; unsatisfied?: string[] }
+  installed: boolean | string
+  can_update: boolean
+}
+
 export interface BusinessResponse<T = undefined> {
   code: number
   message: string
@@ -199,6 +233,71 @@ export function reviewReport(
 
 export function fetchStatus(http: HttpClient): Promise<AdminStatus> {
   return http.get<AdminStatus>('/admin/status')
+}
+
+export function fetchLanguageLines(
+  http: HttpClient,
+  page: number,
+): Promise<Paginated<LanguageLine>> {
+  return http.get<Paginated<LanguageLine>>('/admin/i18n/list', { params: { page } })
+}
+
+export function createLanguageLine(
+  http: HttpClient,
+  input: { group: string; key: string; lang: string; text: string },
+): Promise<unknown> {
+  return http.post<unknown>('/admin/i18n', input)
+}
+
+export function updateLanguageLine(
+  http: HttpClient,
+  id: number,
+  lang: string,
+  text: string,
+): Promise<BusinessResponse> {
+  return http.put<BusinessResponse>(`/admin/i18n/${id}`, { lang, text })
+}
+
+export function deleteLanguageLine(http: HttpClient, id: number): Promise<unknown> {
+  return http.delete<unknown>(`/admin/i18n/${id}`)
+}
+
+export function fetchPlugins(http: HttpClient): Promise<AdminPlugin[]> {
+  return http.get<AdminPlugin[]>('/admin/plugins/data')
+}
+
+export type PluginAction = 'enable' | 'disable' | 'delete'
+
+export function managePlugin(
+  http: HttpClient,
+  name: string,
+  action: PluginAction,
+): Promise<BusinessResponse> {
+  return http.post<BusinessResponse>('/admin/plugins/manage', { name, action })
+}
+
+export function uploadPlugin(http: HttpClient, file: File): Promise<BusinessResponse> {
+  const form = new FormData()
+  form.append('file', file, file.name)
+  return http.post<BusinessResponse>('/admin/plugins/upload', form)
+}
+
+export function installPluginByUrl(
+  http: HttpClient,
+  url: string,
+): Promise<BusinessResponse> {
+  return http.post<BusinessResponse>('/admin/plugins/wget', { url })
+}
+
+export function fetchMarket(http: HttpClient): Promise<MarketPlugin[] | BusinessResponse> {
+  return http.get<MarketPlugin[] | BusinessResponse>('/admin/plugins/market/list')
+}
+
+export function downloadMarketPlugin(
+  http: HttpClient,
+  name: string,
+): Promise<BusinessResponse> {
+  return http.post<BusinessResponse>('/admin/plugins/market/download', { name })
 }
 
 export const PERMISSION_LABELS: Record<number, string> = {

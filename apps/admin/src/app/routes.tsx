@@ -4,11 +4,8 @@ import {
   CommunicationEditPage,
   CommunicationsPage,
   CustomizePage,
-  I18nPage,
-  MarketPage,
   NotFoundPage,
   OptionsPage,
-  PluginsPage,
   ResourcePage,
   ScorePage,
   UpdatePage,
@@ -18,6 +15,9 @@ import { UsersPage } from '../pages/users'
 import { PlayersPage } from '../pages/players'
 import { ReportsPage } from '../pages/reports'
 import { StatusPage } from '../pages/status'
+import { I18nPage } from '../pages/i18n'
+import { PluginsPage } from '../pages/plugins'
+import { MarketPage } from '../pages/market'
 
 export const routePaths = [
   '/',

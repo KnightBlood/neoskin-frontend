@@ -218,9 +218,14 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | 用户 | `GET /admin/users/list`、`PUT /admin/users/{uid}/{email,nickname,password,score,permission,verification}`、`DELETE /admin/users/{uid}` |
 | 玩家 | `GET /admin/players/list`、`PUT /admin/players/{pid}/{name,owner,textures}`、`DELETE /admin/players/{pid}` |
 | 举报 | `GET /admin/reports/list`、`PUT /admin/reports/{id}`（`action=delete|ban|reject`） |
+| 翻译 | `GET /admin/i18n/list`、`POST /admin/i18n`、`PUT /admin/i18n/{id}`、`DELETE /admin/i18n/{id}` |
+| 插件 | `GET /admin/plugins/data`、`POST /admin/plugins/manage`（`action=enable|disable|delete`）、`POST /admin/plugins/upload`、`POST /admin/plugins/wget` |
+| 市场 | `GET /admin/plugins/market/list`、`POST /admin/plugins/market/download` |
 | 状态 | `GET /admin/status` |
 
 > 管理端页面使用 Session + CSRF；`/api/admin/dashboard` 匿名返回 401、非管理员返回 403。
+> `POST /admin/i18n` 在请求头 `Accept: application/json` 时返回 `{code,message}`（否则保持 302），
+> 便于 SPA 直接调用。
 
 ---
 
