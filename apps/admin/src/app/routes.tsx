@@ -1,8 +1,6 @@
 import { createBrowserRouter, type RouteObject } from 'react-router'
 import { AdminLayout } from './layout'
 import {
-  CommunicationEditPage,
-  CommunicationsPage,
   NotFoundPage,
 } from '../pages/pages'
 import { DashboardPage } from '../pages/dashboard'
@@ -15,6 +13,8 @@ import { PluginsPage } from '../pages/plugins'
 import { MarketPage } from '../pages/market'
 import { OptionsPage } from '../pages/options'
 import { UpdatePage } from '../pages/update'
+import { CommunicationsPage } from '../pages/communications'
+import { CommunicationEditPage } from '../pages/communication-edit'
 
 export const routePaths = [
   '/',
@@ -26,6 +26,8 @@ export const routePaths = [
   '/score',
   '/resource',
   '/communications',
+  '/communications/new',
+  '/communications/announcement',
   '/communications/:id',
   '/i18n',
   '/plugins/manage',
@@ -48,7 +50,12 @@ export const routes: RouteObject[] = [
       { path: 'score', element: <OptionsPage group="score" /> },
       { path: 'resource', element: <OptionsPage group="resource" /> },
       { path: 'communications', element: <CommunicationsPage /> },
-      { path: 'communications/:id', element: <CommunicationEditPage /> },
+      { path: 'communications/new', element: <CommunicationEditPage variant="new" /> },
+      {
+        path: 'communications/announcement',
+        element: <CommunicationEditPage variant="announcement" />,
+      },
+      { path: 'communications/:id', element: <CommunicationEditPage variant="edit" /> },
       { path: 'i18n', element: <I18nPage /> },
       { path: 'plugins/manage', element: <PluginsPage /> },
       { path: 'plugins/market', element: <MarketPage /> },

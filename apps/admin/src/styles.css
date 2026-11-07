@@ -157,6 +157,52 @@ body {
   max-width: 420px;
 }
 
+.communication-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 90px;
+  padding: 8px;
+  border: 1px dashed var(--ant-color-border, #d9d9d9);
+  border-radius: 8px;
+}
+
+.communication-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--ant-color-border, #f0f0f0);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.communication-block.is-selected {
+  border-color: var(--ant-color-primary, #1677ff);
+  background: var(--ant-color-primary-bg, #e6f4ff);
+}
+
+.communication-block-title {
+  font-size: 13px;
+}
+
+.communication-block-title span {
+  color: var(--ant-color-text-secondary, #8c8c8c);
+}
+
+.communication-source textarea,
+.communication-source {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+}
+
+.communication-preview {
+  max-height: 850px;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
 @media (max-width: 900px) {
   .admin-options-form {
     grid-template-columns: minmax(0, 1fr);

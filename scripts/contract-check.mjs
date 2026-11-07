@@ -49,6 +49,7 @@ for (const path of [
   '/api/user/reports',
   '/api/admin/dashboard',
   '/api/admin/options/options',
+  '/api/admin/communications',
 ]) {
   const response = await get(path)
   assert.equal(response.status, 401, `${path} 匿名请求需要 401`)

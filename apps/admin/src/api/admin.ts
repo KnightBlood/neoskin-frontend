@@ -268,6 +268,100 @@ export function uploadUpdate(http: HttpClient, file: File): Promise<BusinessResp
   return http.post<BusinessResponse>('/admin/update/upload', form)
 }
 
+export type CommunicationKind = 'announcement' | 'message' | 'both'
+export type CommunicationStatus = 'draft' | 'published' | 'withdrawn'
+export type CommunicationBlockType = 'text' | 'heading' | 'alert' | 'collapse' | 'divider'
+
+export interface CommunicationBlock {
+  type: CommunicationBlockType
+  title?: string
+  content?: string
+  tone?: string
+  expanded?: boolean
+}
+
+export interface CommunicationItem {
+  id: number
+  title: string
+  kind: CommunicationKind
+  status: CommunicationStatus
+  read_count: number
+  delivery_count: number
+  updated_at?: string
+}
+
+export interface CommunicationEditorData {
+  id?: number
+  title: string
+  kind: CommunicationKind
+  status?: CommunicationStatus
+  locale: string
+  editor: 'blocks' | 'source'
+  source: string
+  blocks: CommunicationBlock[]
+  audience: {
+    receiver: 'all' | 'normal' | 'uid' | 'email'
+    uid?: number | string | null
+    email?: string | null
+  }
+}
+
+export function fetchCommunications(
+  http: HttpClient,
+  page: number,
+): Promise<Paginated<CommunicationItem>> {
+  return http.get<Paginated<CommunicationItem>>('/api/admin/communications', {
+    params: { page },
+  })
+}
+
+export function fetchCommunication(
+  http: HttpClient,
+  id: number,
+): Promise<CommunicationEditorData> {
+  return http.get<CommunicationEditorData>(`/api/admin/communications/${id}`)
+}
+
+export function previewCommunication(
+  http: HttpClient,
+  payload: Record<string, unknown>,
+): Promise<{ html: string }> {
+  return http.post<{ html: string }>('/admin/communications/preview', payload)
+}
+
+export function importCommunication(
+  http: HttpClient,
+  source: string,
+): Promise<{ blocks: CommunicationBlock[] }> {
+  return http.post<{ blocks: CommunicationBlock[] }>('/admin/communications/import', {
+    source,
+  })
+}
+
+export function saveCommunication(
+  http: HttpClient,
+  payload: Record<string, unknown>,
+  id?: number,
+): Promise<BusinessResponse<{ id: number; status: string }>> {
+  if (id) {
+    return http.put<BusinessResponse<{ id: number; status: string }>>(
+      `/admin/communications/${id}`,
+      payload,
+    )
+  }
+  return http.post<BusinessResponse<{ id: number; status: string }>>(
+    '/admin/communications',
+    payload,
+  )
+}
+
+export function withdrawCommunication(
+  http: HttpClient,
+  id: number,
+): Promise<BusinessResponse> {
+  return http.post<BusinessResponse>(`/admin/communications/${id}/withdraw`)
+}
+
 export function fetchLanguageLines(
   http: HttpClient,
   page: number,

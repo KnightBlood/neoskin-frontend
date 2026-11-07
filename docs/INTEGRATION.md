@@ -223,11 +223,13 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | 插件 | `GET /admin/plugins/data`、`POST /admin/plugins/manage`（`action=enable|disable|delete`）、`POST /admin/plugins/upload`、`POST /admin/plugins/wget` |
 | 市场 | `GET /admin/plugins/market/list`、`POST /admin/plugins/market/download` |
 | 更新 | `GET /admin/update`（壳页保留）、`POST /admin/update/download`、`POST /admin/update/install`、`POST /admin/update/upload` |
+| 通信 | `GET /api/admin/communications`、`GET /api/admin/communications/{id}`（新增）；`POST|PUT /admin/communications`、`POST /admin/communications/{id}/withdraw`、`POST /admin/communications/preview|import` |
 | 状态 | `GET /admin/status` |
 
 > 管理端页面使用 Session + CSRF；`/api/admin/dashboard` 匿名返回 401、非管理员返回 403。
 > `POST /admin/i18n` 在请求头 `Accept: application/json` 时返回 `{code,message}`（否则保持 302），
-> 便于 SPA 直接调用。
+> 便于 SPA 直接调用。`POST|PUT /admin/communications` 与撤回在请求头 `X-Neoskin-Spa: 1` 存在时返回 JSON，
+> 返回 `{code,message,data:{id,status}}`。
 
 ---
 

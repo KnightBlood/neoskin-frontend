@@ -59,6 +59,8 @@ async function boot() {
         location.reload()
       },
     })
+    // 标识管理端 SPA：后端据此在写操作返回 JSON（而不是 302 回旧页面）。
+    http.raw.defaults.headers.common['X-Neoskin-Spa'] = '1'
     const i18n = await initI18n(bootstrap).catch(() => null)
     if (i18n) {
       document.documentElement.lang = i18n.language.replace('_', '-')

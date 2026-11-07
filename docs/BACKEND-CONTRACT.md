@@ -399,6 +399,27 @@ Content-Type: application/json
 > 更新页不新增端点：使用既有 `POST /admin/update/download|install` 与 `POST /admin/update/upload`；
 > `/api/admin/update/info` 为可选增量，未实现时前端仍可下载/安装并展示返回消息。
 
+#### `GET /api/admin/communications?page=1`
+
+认证：管理员。直接返回分页对象（`data/current_page/last_page/per_page/total`），
+条目含 `id/title/kind/status/read_count/delivery_count/updated_at`。
+
+#### `GET /api/admin/communications/{id}`
+
+认证：管理员。返回编辑器数据：
+
+```json
+{
+  "id": 1, "title": "维护公告", "kind": "announcement", "status": "draft",
+  "locale": "", "editor": "blocks", "source": "",
+  "blocks": [{ "type": "text", "content": "…", "title": "", "tone": "info", "expanded": false }],
+  "audience": { "receiver": "all", "uid": null, "email": null }
+}
+```
+
+> `POST|PUT /admin/communications*` 与撤回在请求头 `X-Neoskin-Spa: 1` 存在时返回
+> `{code:0,message,data:{id,status}}`，否则保持原 302；`preview`/`import` 原本即返回 JSON。
+
 #### `GET /api/admin/communications?page=1&per_page=15`
 
 认证：管理员（`Notification.Read` 或等价权限）。

@@ -43,7 +43,7 @@ NeoSkinFrontend/
 
 ## 当前状态
 
-**P4 管理端（部分）完成（2026-11-07）**。已交付：
+**P4 管理端 + P5 通信编辑器完成（2026-11-07）**。已交付：
 
 | 区域 | 内容 |
 | --- | --- |
@@ -51,14 +51,14 @@ NeoSkinFrontend/
 | 站点壳 | 用户菜单、退出登录、深色模式、语言切换、未登录路由守卫、全局提示（React 19 兼容） |
 | 皮肤库 | 列表（模型/披风筛选、关键词、最新/最多收藏、我上传的、上传者过滤、分页）、详情（2D/3D/披风、衣柜、设头像、下载、举报、改名、切模型、隐私、删除）、上传（PNG 校验、Alex 自动识别、尺寸预检、积分预估、3D 预览、重复检测） |
 | 用户中心 | 侧栏 + 仪表盘（积分/使用量/签到/积分说明/邮箱验证）、资料（昵称/密码/邮箱/头像重置/注销）、角色（增删改/清除材质/3D）、衣柜（筛选/搜索/分页/应用至角色/改名/头像/移除）、OAuth 应用 CRUD、站内信与我的举报列表/详情 |
-| 管理端 | 登录跳转、非管理员 403；仪表盘、用户/玩家/举报、站点配置/配色/积分/资源、翻译、插件管理、插件市场、运行状态、在线更新与 ZIP 上传 |
+| 管理端 | 登录跳转、非管理员 403；仪表盘、用户/玩家/举报、站点配置/配色/积分/资源、翻译、插件管理、插件市场、运行状态、在线更新与 ZIP 上传；通信列表与组件式编辑器（画布/属性/源码导入/实时预览/撤回） |
 | 四端后端 | `GET /api/bootstrap` + `/app-next/{site,admin}/*` 壳与静态托管；`FRONTEND_MODE=next` 时 `/`、`/admin` 302 到 SPA |
 | 自动化 | 四端 `contract-check.mjs`（壳 + bootstrap + 皮肤库端点）；`tests/browser/flows.mjs` 覆盖 app-next 登录与仪表盘 |
 
-`pnpm -r typecheck && pnpm -r test && pnpm -r build` 全绿；P4 已在 Go 生产构建上用浏览器验证
-仪表盘 → 用户 → 玩家 → 举报 → 配置 → 翻译 → 插件/市场 → 状态 → 更新，0 console error。
+`pnpm -r typecheck && pnpm -r test && pnpm -r build` 全绿；P4/P5 已在 Go 生产构建上用浏览器验证
+仪表盘 → 用户 → 玩家 → 举报 → 配置 → 翻译 → 插件/市场 → 状态 → 更新，以及通信草稿→发布→撤回，0 console error。
 
-> 新增契约端点 `GET /api/user/inbox`、`GET /api/user/inbox/{id}`、`GET /api/user/reports`、`GET /api/admin/dashboard`、`GET|PUT /api/admin/options/{group}` 已在四端实现（见 `docs/BACKEND-CONTRACT.md` §7.2）；
+> 新增契约端点 `GET /api/user/inbox`、`GET /api/user/inbox/{id}`、`GET /api/user/reports`、`GET /api/admin/dashboard`、`GET|PUT /api/admin/options/{group}`、`GET /api/admin/communications`、`GET /api/admin/communications/{id}` 已在四端实现（见 `docs/BACKEND-CONTRACT.md` §7.2）；
 > `contract-check.mjs` 会断言匿名请求返回 401 JSON。
 
 ### 本地开发
