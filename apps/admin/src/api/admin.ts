@@ -252,6 +252,22 @@ export function saveOptionsGroup(
   return http.put<BusinessResponse>(`/api/admin/options/${group}`, payload)
 }
 
+export type UpdateActionResult = BusinessResponse<{ review?: boolean }>
+
+export function downloadUpdate(http: HttpClient): Promise<UpdateActionResult> {
+  return http.post<UpdateActionResult>('/admin/update/download')
+}
+
+export function installUpdate(http: HttpClient): Promise<BusinessResponse> {
+  return http.post<BusinessResponse>('/admin/update/install')
+}
+
+export function uploadUpdate(http: HttpClient, file: File): Promise<BusinessResponse> {
+  const form = new FormData()
+  form.append('file', file, file.name)
+  return http.post<BusinessResponse>('/admin/update/upload', form)
+}
+
 export function fetchLanguageLines(
   http: HttpClient,
   page: number,

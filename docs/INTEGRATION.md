@@ -222,6 +222,7 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | 翻译 | `GET /admin/i18n/list`、`POST /admin/i18n`、`PUT /admin/i18n/{id}`、`DELETE /admin/i18n/{id}` |
 | 插件 | `GET /admin/plugins/data`、`POST /admin/plugins/manage`（`action=enable|disable|delete`）、`POST /admin/plugins/upload`、`POST /admin/plugins/wget` |
 | 市场 | `GET /admin/plugins/market/list`、`POST /admin/plugins/market/download` |
+| 更新 | `GET /admin/update`（壳页保留）、`POST /admin/update/download`、`POST /admin/update/install`、`POST /admin/update/upload` |
 | 状态 | `GET /admin/status` |
 
 > 管理端页面使用 Session + CSRF；`/api/admin/dashboard` 匿名返回 401、非管理员返回 403。

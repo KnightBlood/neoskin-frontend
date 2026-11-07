@@ -396,6 +396,9 @@ Content-Type: application/json
 - `PUT` 接收同结构 JSON（布尔项可直接传 `true`/`false`），保存后返回 `{code:0,message}`。
 - 未知组返回 404；非管理员返回 403；匿名返回 401。
 
+> 更新页不新增端点：使用既有 `POST /admin/update/download|install` 与 `POST /admin/update/upload`；
+> `/api/admin/update/info` 为可选增量，未实现时前端仍可下载/安装并展示返回消息。
+
 #### `GET /api/admin/communications?page=1&per_page=15`
 
 认证：管理员（`Notification.Read` 或等价权限）。

@@ -4,7 +4,6 @@ import {
   CommunicationEditPage,
   CommunicationsPage,
   NotFoundPage,
-  UpdatePage,
 } from '../pages/pages'
 import { DashboardPage } from '../pages/dashboard'
 import { UsersPage } from '../pages/users'
@@ -15,6 +14,7 @@ import { I18nPage } from '../pages/i18n'
 import { PluginsPage } from '../pages/plugins'
 import { MarketPage } from '../pages/market'
 import { OptionsPage } from '../pages/options'
+import { UpdatePage } from '../pages/update'
 
 export const routePaths = [
   '/',
