@@ -56,7 +56,7 @@ NeoSkinFrontend/
 | 自动化 | 四端 `contract-check.mjs`（壳 + bootstrap + 皮肤库端点）；`tests/browser/flows.mjs` 覆盖 app-next 登录与仪表盘 |
 
 `pnpm -r typecheck && pnpm -r test && pnpm -r build` 全绿；P4/P5 已在 Go 生产构建上用浏览器验证
-仪表盘 → 用户 → 玩家 → 举报 → 配置 → 翻译 → 插件/市场 → 状态 → 更新，以及通信草稿→发布→撤回，0 console error。
+仪表盘 → 用户 → 玩家 → 举报 → 配置 → 翻译 → 插件/市场 → 状态 → 更新，以及通信草稿→发布→撤回、更新信息展示，0 console error。
 
 > 新增契约端点 `GET /api/user/inbox`、`GET /api/user/inbox/{id}`、`GET /api/user/reports`、`GET /api/admin/dashboard`、`GET|PUT /api/admin/options/{group}`、`GET /api/admin/communications`、`GET /api/admin/communications/{id}` 已在四端实现（见 `docs/BACKEND-CONTRACT.md` §7.2）；
 > `contract-check.mjs` 会断言匿名请求返回 401 JSON。

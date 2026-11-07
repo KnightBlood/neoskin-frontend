@@ -396,8 +396,19 @@ Content-Type: application/json
 - `PUT` 接收同结构 JSON（布尔项可直接传 `true`/`false`），保存后返回 `{code:0,message}`。
 - 未知组返回 404；非管理员返回 403；匿名返回 401。
 
-> 更新页不新增端点：使用既有 `POST /admin/update/download|install` 与 `POST /admin/update/upload`；
-> `/api/admin/update/info` 为可选增量，未实现时前端仍可下载/安装并展示返回消息。
+#### `GET /api/admin/update/info`
+
+认证：管理员。返回更新检查结果（下载/安装仍用既有端点）：
+
+```json
+{
+  "latest": "6.0.12_patch", "current": "6.0.11_patch", "error": "",
+  "can_update": true, "package": null, "notice": "",
+  "upload_limits": { "application": 1073741824, "upload": 1073741824 }
+}
+```
+
+`package` 为当前会话已下载待安装的运行包（无则 `null`）。
 
 #### `GET /api/admin/communications?page=1`
 
@@ -406,7 +417,7 @@ Content-Type: application/json
 
 #### `GET /api/admin/communications/{id}`
 
-认证：管理员。返回编辑器数据：
+认证：管理员。直接返回编辑器数据：
 
 ```json
 {
@@ -420,129 +431,9 @@ Content-Type: application/json
 > `POST|PUT /admin/communications*` 与撤回在请求头 `X-Neoskin-Spa: 1` 存在时返回
 > `{code:0,message,data:{id,status}}`，否则保持原 302；`preview`/`import` 原本即返回 JSON。
 
-#### `GET /api/admin/communications?page=1&per_page=15`
-
-认证：管理员（`Notification.Read` 或等价权限）。
-
-```json
-{
-  "data": [
-    {
-      "id": 3,
-      "title": "维护公告",
-      "kind": "announcement",
-      "status": "published",
-      "audience": { "type": "all" },
-      "read_count": 12,
-      "delivery_count": 40,
-      "author": "admin",
-      "updated_at": "2026-11-01 10:00:00"
-    }
-  ],
-  "current_page": 1, "last_page": 1, "per_page": 15, "total": 1
-}
-```
-
-`kind`：`message|announcement`；`status`：`draft|published|withdrawn`。
-
-#### `GET /api/admin/communications/{id}`
-
-```json
-{
-  "code": 0,
-  "data": {
-    "id": 3, "title": "维护公告", "kind": "announcement", "status": "published",
-    "audience": { "type": "all" },
-    "editor": "blocks",
-    "source": "<p>…</p>",
-    "blocks": [
-      { "type": "heading", "title": "维护通知", "content": "…", "tone": "info", "expanded": true }
-    ],
-    "updated_at": "2026-11-01 10:00:00"
-  }
-}
-```
-
-`blocks` 与现有通信编辑器协议一致；`editor = "source"` 时前端展示源码模式。
-
-#### `GET /api/admin/dashboard`
-
-认证：管理员。
-
-```json
-{
-  "code": 0,
-  "data": {
-    "users": 100,
-    "players": 120,
-    "textures": 340,
-    "disk_usage": 10485760,
-    "series": {
-      "uploads": [{ "date": "2026-10-01", "count": 3 }],
-      "registrations": [{ "date": "2026-10-01", "count": 1 }]
-    }
-  }
-}
-```
-
-`disk_usage` 单位字节；`series` 至少 30 天。
-
-#### `GET /api/admin/options/{group}`
-
-`group ∈ general | customize | score | resource`。认证：管理员。
-
-```json
-{ "code": 0, "data": { "group": "general", "values": { "site_name": "NeoSkin", "…": "…" } } }
-```
-
-`values` 的键与现有 `/admin/options` 表单字段一致（含 `_<locale>` 后缀字段）。
-
 #### `GET /api/admin/status`
 
-认证：管理员。
-
-```json
-{
-  "code": 0,
-  "data": {
-    "info": {
-      "name": "Blessing Skin",
-      "version": "6.0.11",
-      "env": "production",
-      "debug": false,
-      "commit": "abc1234"
-    },
-    "server": { "runtime": "Go 1.26", "web": "net/http", "os": "Linux" },
-    "db": { "type": "mysql", "host": "127.0.0.1", "port": 3306, "database": "blessing", "prefix": "bs_" },
-    "plugins": [{ "name": "example", "version": "1.0.0", "enabled": true }],
-    "health": { "storage_writable": true, "install_locked": true, "cache_writable": true }
-  }
-}
-```
-
-`server.runtime` 按端口填写（如 `.NET 10`、`Java 21`、`Rust 1.x`），前端只展示。
-
-#### `GET /api/admin/update/info`
-
-认证：管理员。
-
-```json
-{
-  "code": 0,
-  "data": {
-    "current_version": "6.0.11",
-    "latest_version": "6.0.12",
-    "can_update": true,
-    "release_url": "https://…",
-    "changelog": "…",
-    "package": { "name": "update.zip", "size": 12345, "sha256": "…" }
-  }
-}
-```
-
-无更新时 `can_update=false`，`latest_version = current_version`。
-
----
+认证：管理员。返回运行状态 JSON（`bs` / `server` / `db` / `plugins`），供状态页直接展示。
 
 ## 8. 上传
 

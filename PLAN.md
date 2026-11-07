@@ -3,7 +3,7 @@
 > 定位：Blessing Skin Server 6.0.11 移植项目的**共享前端**，独立于任何后端。
 > 目标版本：React 19.3 + Vite 8.3.6 + TypeScript 7.0，站点端 TDesign 1.18.6、管理端 antd 6.7.0。
 > 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成；P3 已完成；
-> P4 管理端与 P5 通信编辑器已完成；`/api/admin/update/info` 仍为可选增量。
+> P4 管理端与 P5 通信编辑器已完成（含 `/api/admin/update/info`）。
 > 仓库：<https://github.com/KnightBlood/neoskin-frontend>（`main`）。
 
 ---

@@ -254,6 +254,20 @@ export function saveOptionsGroup(
 
 export type UpdateActionResult = BusinessResponse<{ review?: boolean }>
 
+export interface UpdateInfo {
+  latest: string
+  current: string
+  error: string
+  can_update: boolean
+  package?: unknown
+  notice?: string
+  upload_limits?: Record<string, string>
+}
+
+export function fetchUpdateInfo(http: HttpClient): Promise<UpdateInfo> {
+  return http.get<UpdateInfo>('/api/admin/update/info')
+}
+
 export function downloadUpdate(http: HttpClient): Promise<UpdateActionResult> {
   return http.post<UpdateActionResult>('/admin/update/download')
 }
