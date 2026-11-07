@@ -198,7 +198,7 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | 衣柜 | `GET /user/closet/list`、`GET /user/closet/ids`、`PUT /user/closet/{tid}`、`DELETE /user/closet/{tid}` |
 | OAuth | `GET/POST /oauth/clients`、`PUT/DELETE /oauth/clients/{id}` |
 
-站内信与我的举报需要**新增契约端点**（尚未在四端实现时，前端显示提示而非白屏）：
+站内信与我的举报使用新增契约端点（四端已实现；缺失时前端显示提示而非白屏）：
 
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |
@@ -206,7 +206,8 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | GET | `/api/user/inbox/{id}` | 详情（自动已读，`{code,data}`） |
 | GET | `/api/user/reports?page=1&per_page=10` | 我的举报分页 |
 
-> 返回结构以 `docs/BACKEND-CONTRACT.md` §7.2 为准。
+> 返回结构以 `docs/BACKEND-CONTRACT.md` §7.2 为准；`scripts/contract-check.mjs`
+> 会额外断言这三个路径匿名访问返回 `401 application/json`。
 
 ---
 

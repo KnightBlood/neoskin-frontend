@@ -58,8 +58,8 @@ NeoSkinFrontend/
 `pnpm -r typecheck && pnpm -r test && pnpm -r build` 全绿；P3 已在 Go 生产构建上用浏览器验证
 仪表盘 → 资料 → 角色 → 衣柜 → OAuth 全流程，0 console error。
 
-> 待四端补齐契约端点：`GET /api/user/inbox`、`GET /api/user/inbox/{id}`、`GET /api/user/reports`
-> （见 `docs/BACKEND-CONTRACT.md` §7.2）。未实现时页面显示提示，不会白屏。
+> 用户中心新增契约端点 `GET /api/user/inbox`、`GET /api/user/inbox/{id}`、`GET /api/user/reports`
+> 已在四端实现（见 `docs/BACKEND-CONTRACT.md` §7.2）；`contract-check.mjs` 会断言匿名请求返回 401 JSON。
 
 ### 本地开发
 
