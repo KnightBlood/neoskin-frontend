@@ -64,3 +64,4 @@
   `neoskin-frontend_<version>.zip`（`app-next/{site,admin}` + `manifest.json`）。
 - 发布包附带 `deploy/nginx.conf`、`deploy/Caddyfile`、`deploy/DEPLOY.md`，
   支持纯静态托管 + 反代任一后端。
+- 验证：`pnpm -r typecheck/test/build` 全绿；本地打包确认 `app-next` + `deploy/*` 结构正确。
