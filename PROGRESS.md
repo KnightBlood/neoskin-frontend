@@ -55,3 +55,12 @@
 - `contract-check.mjs`：四个端口（8099 / 8788 / 8799 / 8777）全部通过；
   过程中发现并修复 Spring 未挂载契约读取端点的问题。
 - 待办：CI 推送后跑平台矩阵（macOS / Windows / Linux × x64 / aarch64）。
+
+## 2026-11-08 — NeoSkin 品牌与独立发布
+
+- 站点默认描述、管理端“运行状态”卡片标题改为 NeoSkin；后端默认 `site_name` /
+  `site_description` / `announcement` 与安装向导同步品牌化（版权署名保留上游）。
+- 新增独立前端 Release：推送 `v*` tag 生成
+  `neoskin-frontend_<version>.zip`（`app-next/{site,admin}` + `manifest.json`）。
+- 发布包附带 `deploy/nginx.conf`、`deploy/Caddyfile`、`deploy/DEPLOY.md`，
+  支持纯静态托管 + 反代任一后端。

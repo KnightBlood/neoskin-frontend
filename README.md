@@ -1,10 +1,21 @@
 # NeoSkinFrontend
 
-Blessing Skin Server 6.0.11 系列移植项目的**共享前端**。
+**NeoSkin** 系列（基于 Blessing Skin Server 6.0.11）的**共享前端**。
 
 > 仓库：<https://github.com/KnightBlood/neoskin-frontend>（`main`）
-> 本目录不属于任何一个后端仓库。`NeoSkinGo`、`NeoSkin.NET`、
-> `NeoSkinSpringBoot`、`NeoSkinRS` 都通过同一套 HTTP 契约复用它。
+> 本目录不属于任何一个后端仓库。四个后端都通过同一套 HTTP 契约复用它。
+
+## 相关仓库
+
+| 项目 | GitHub |
+| --- | --- |
+| 共享前端 | <https://github.com/KnightBlood/neoskin-frontend> |
+| Go / Goravel | <https://github.com/KnightBlood/neoskin-go> |
+| .NET 10 / Native AOT | <https://github.com/KnightBlood/neoskin-dotnet> |
+| Java / Spring Boot | <https://github.com/KnightBlood/neoskin-springboot> |
+| Rust / Suprnova | <https://github.com/KnightBlood/neoskin-rs> |
+
+前端可独立发布，发布包内附 Nginx / Caddy 配置；详见 `deploy/DEPLOY.md`。
 
 ## 是什么
 
@@ -104,3 +115,15 @@ node scripts\contract-check.mjs --base http://127.0.0.1:8080
 4. 静态资源按 `/app-next/{site,admin}/` 托管，未知路径回退 `index.html`。
 
 任何一项不满足，前端都会在启动时给出明确错误（缺 bootstrap / 401 / 419 / 契约版本不符）。
+
+## 发布
+
+独立前端由 `.github/workflows/release.yml` 自动构建并发布：
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+Release 产物：`neoskin-frontend_<version>.zip`，包含 `app-next/{site,admin}`、
+`manifest.json`，以及 `deploy/nginx.conf`、`deploy/Caddyfile`、`deploy/DEPLOY.md`。

@@ -1,0 +1,56 @@
+# NeoSkin 独立前端部署（Caddy 2）
+#
+# 用法：
+#   1. 解压 release 到 /var/www/neoskin
+#   2. 修改 reverse_proxy 地址
+#   3. caddy run --config deploy/Caddyfile
+
+:80 {
+	root * /var/www/neoskin
+	encode zstd gzip
+
+	# 上传大文件
+	request_body {
+		max_size 1100MB
+	}
+
+	# 带 hash 的产物长缓存
+	@assets path /app-next/*/assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	# SPA 壳不缓存
+	@siteIndex path /app-next/site/index.html /app-next/admin/index.html
+	header @siteIndex Cache-Control "no-cache"
+
+	# 独立前端：静态文件
+	@site path /app-next/site /app-next/site/*
+	handle @site {
+		try_files {path} /app-next/site/index.html
+		file_server
+	}
+
+	@admin path /app-next/admin /app-next/admin/*
+	handle @admin {
+		try_files {path} /app-next/admin/index.html
+		file_server
+	}
+
+	# 独立前端：首页进入 SPA
+	handle / {
+		redir /app-next/site/ 302
+	}
+
+	# 后端动态路由（任一 NeoSkin 端口）
+	@backend path /api/* /auth/* /user/* /admin /admin/* /skinlib/* /texture/* /textures/* /csl/* /preview/* /avatar/* /oauth/* /lang/* /raw/* /setup /setup/* /_ignition/* /.well-known/*
+	handle @backend {
+		reverse_proxy 127.0.0.1:8080
+	}
+
+	# 插件静态资源
+	handle /plugins/* {
+		reverse_proxy 127.0.0.1:8080
+	}
+	handle {
+		reverse_proxy 127.0.0.1:8080
+	}
+}

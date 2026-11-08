@@ -33,7 +33,7 @@ export function StatusPage() {
         <h1>{t('general.status', '运行状态')}</h1>
       </header>
 
-      <Card title="Blessing Skin" loading={status.isPending}>
+      <Card title="NeoSkin" loading={status.isPending}>
         <Descriptions column={1} size="small" items={entries(data?.bs)} />
       </Card>
       <Card title="服务器" loading={status.isPending}>

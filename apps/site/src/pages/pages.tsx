@@ -16,7 +16,7 @@ export function HomePage() {
   const { bootstrap } = useApp()
   return (
     <Page title={bootstrap.siteName}>
-      <p>{bootstrap.options.site_description ?? 'Blessing Skin Server'}</p>
+      <p>{bootstrap.options.site_description ?? 'NeoSkin'}</p>
       <div className="cards">
         <Card title="皮肤库">
           <Link to="/skinlib">进入皮肤库</Link>
