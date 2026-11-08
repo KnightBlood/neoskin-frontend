@@ -70,3 +70,7 @@
   翻译新增/更新/删除全部返回 `code:0`；修改自己的权限按 PHP 语义返回 403。
 - 插件列表为空、市场列表与更新检查正常；插件启停/更新下载安装因本地无插件/非落后版本未执行。
 - GitHub Release `v0.1.0` 已发布：`neoskin-frontend_0.1.0.zip`（app-next + Nginx/Caddy 配置）。
+- 管理端更新安装回归发现并修复：SPA 安装未传 `package.id`，且 Go/Spring 只返回 302；
+  现 `installUpdate` 传递 id，Go/Spring 对 SPA 请求返回 JSON。
+- 专用环境验证插件启停（manifest 插件 enable/disable）与更新下载/安装
+  （本地 update.json + 6.0.12_patch ZIP → 下载校验 → 安装 → 标记文件落盘）。

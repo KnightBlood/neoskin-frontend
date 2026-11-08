@@ -78,9 +78,14 @@ export function UpdatePage() {
   }
 
   async function install() {
+    const packageId = info.data?.package?.id
+    if (!packageId) {
+      setNotice({ type: 'error', text: '没有待安装的运行包，请先下载。' })
+      return
+    }
     setBusy('install')
     try {
-      const result = await installUpdate(http)
+      const result = await installUpdate(http, packageId)
       if (result.code === 0) {
         setDownloaded(false)
         setNotice({ type: 'success', text: result.message || '安装完成' })

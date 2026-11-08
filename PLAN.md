@@ -510,7 +510,7 @@ pnpm -r build                       # apps/site/dist、apps/admin/dist
 - [x] 路由级代码分割（站点主包 832 KB → 291 KB；管理端按页拆分）
 - [x] axe WCAG 2 A/AA：9 个关键页面 0 violation（含表单标签、开关名称与对比度）
 - [x] `FRONTEND_MODE=legacy` 回滚验证（四个端口：`/` 返回 legacy `blessing-extra`，SPA 仍可访问）
-- [ ] 管理端 CRUD、通信发布/撤回、插件、更新闭环
+- [x] 管理端 CRUD、通信发布/撤回、插件启停、更新下载/安装闭环
 - [ ] 字段/文案/语言键与 PHP 版一致
 - [x] Playwright 浏览器 E2E：Go / .NET / Spring / Rust 四端全绿
 - [x] 四个端口 `contract-check` 全绿（Go / .NET / Spring / Rust 本地均通过）

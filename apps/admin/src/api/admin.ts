@@ -254,12 +254,21 @@ export function saveOptionsGroup(
 
 export type UpdateActionResult = BusinessResponse<{ review?: boolean }>
 
+export interface UpdatePackageInfo {
+  id: string
+  version: string
+  sha256: string
+  files?: string[]
+  count?: number
+  created_at?: number
+}
+
 export interface UpdateInfo {
   latest: string
   current: string
   error: string
   can_update: boolean
-  package?: unknown
+  package?: UpdatePackageInfo | null
   notice?: string
   upload_limits?: Record<string, string>
 }
@@ -272,8 +281,11 @@ export function downloadUpdate(http: HttpClient): Promise<UpdateActionResult> {
   return http.post<UpdateActionResult>('/admin/update/download')
 }
 
-export function installUpdate(http: HttpClient): Promise<BusinessResponse> {
-  return http.post<BusinessResponse>('/admin/update/install')
+export function installUpdate(
+  http: HttpClient,
+  id: string,
+): Promise<BusinessResponse> {
+  return http.post<BusinessResponse>('/admin/update/install', { id })
 }
 
 export function uploadUpdate(http: HttpClient, file: File): Promise<BusinessResponse> {
