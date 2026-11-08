@@ -191,7 +191,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px;
+  padding: 12px 16px;
   background: var(--td-bg-color-container, #fff);
   border: 1px solid var(--td-component-stroke, #e7e7e7);
   border-radius: 10px;
@@ -201,23 +201,53 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1 1 360px;
-  max-width: 560px;
+  flex: 1 1 420px;
+  min-width: 0;
+  max-width: 620px;
 }
 
-.skinlib-filter {
-  width: 150px;
+.skinlib-search .skinlib-filter {
+  width: 168px;
+  flex: 0 0 168px;
+}
+
+.skinlib-search .t-input__wrap {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.skinlib-search .t-input {
+  border-radius: 8px;
+}
+
+.skinlib-search-icon {
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
+  color: var(--td-text-color-placeholder, #999);
 }
 
-.skinlib-search > :nth-child(2) {
-  flex: 1 1 auto;
+.skinlib-search-submit {
+  flex: 0 0 auto;
+  min-width: 72px;
+  white-space: nowrap;
 }
 
 .skinlib-sort {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .skinlib-search {
+    max-width: none;
+  }
+
+  .skinlib-search .skinlib-filter {
+    width: 100%;
+    flex: 1 1 100%;
+  }
 }
 
 .skinlib-loading {

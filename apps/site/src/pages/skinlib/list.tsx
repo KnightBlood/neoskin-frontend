@@ -21,6 +21,15 @@ import { PromptDialog } from '../../components/PromptDialog'
 import { toast } from '../../lib/toast'
 import { useApp } from '../../app/context'
 
+function SearchIcon() {
+  return (
+    <svg className="skinlib-search-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="m16 16 4 4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export function SkinlibListPage() {
   const { http, bootstrap } = useApp()
   const { t } = useTranslation()
@@ -181,10 +190,16 @@ export function SkinlibListPage() {
           <Input
             value={keywordInput}
             type="search"
+            clearable
+            prefixIcon={<SearchIcon />}
             placeholder={t('vendor.datatable.search', '搜索材质名称')}
             onChange={(next) => setKeywordInput(String(next))}
           />
-          <Button type="submit" theme="primary">
+          <Button
+            className="skinlib-search-submit"
+            type="submit"
+            theme="primary"
+          >
             {t('vendor.datatable.search', '搜索')}
           </Button>
         </form>
