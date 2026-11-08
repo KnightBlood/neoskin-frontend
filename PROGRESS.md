@@ -36,3 +36,16 @@
 - 四个后端 bootstrap 全部补齐上述键；Go/Rust 补 `verified` 路由检查，.NET/Spring 沿用中间件。
 - 验证：前端 `pnpm -r typecheck` / `pnpm -r test` / `contract-check` 全绿；
   Go 浏览器联调 403/200 行为符合 PHP，0 console error。
+
+## 2026-11-08 — P6 切换验收（进行中）
+- Go `FRONTEND_MODE=next`：`GET /` → `/app-next/site/`、`GET /admin` → `/app-next/admin/`；
+  `FRONTEND_MODE=legacy` 回滚后 `/` 返回 legacy 页面（`#blessing-extra`），SPA 路径仍可访问。
+- 174 路由回归冒烟：按 `conformance/data/routes.json` 请求 78 条 GET 路由，
+  0 个 500；其余为 200/302/401/403/404（未登录、示例参数或权限所致）。
+- 站点/管理端 11 个页面逐页浏览器检查：0 console error；“插件/市场”实际路径为
+  `/plugins/manage`、`/plugins/market`。
+- 路由级代码分割：站点入口 832 KB → 291 KB（gzip 254 → 92 KB），
+  材质详情/用户中心/管理端各页按需加载；`route-loading` 占位。
+- 性能基线：本地 DCL/load 约 50–80 ms，CLS 0；静态资源由端口直接输出（未压缩），
+  生产建议由反向代理启用 gzip/brotli。
+- 待办：其余三个端口的 `next`/`legacy` 实机回归与 axe 完整扫描。

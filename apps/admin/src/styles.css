@@ -219,3 +219,10 @@ body {
   margin: 10vh auto;
   padding: 24px;
 }
+
+.route-loading {
+  padding: 48px 16px;
+  color: rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+

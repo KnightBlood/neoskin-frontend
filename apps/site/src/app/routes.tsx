@@ -1,25 +1,69 @@
 import { createBrowserRouter, Navigate, useLocation, type RouteObject } from 'react-router'
-import type { ReactElement } from 'react'
+import { lazy, Suspense, type ReactElement } from 'react'
 import { SiteLayout } from './layout'
 import { useApp } from './context'
-import { HomePage, NotFoundPage } from '../pages/pages'
-import { SkinlibListPage } from '../pages/skinlib/list'
-import { SkinlibDetailPage } from '../pages/skinlib/detail'
-import { SkinlibUploadPage } from '../pages/skinlib/upload'
-import { UserShell } from '../pages/user/shell'
-import { UserDashboardPage } from '../pages/user/dashboard'
-import { ProfilePage } from '../pages/user/profile'
-import { PlayersPage } from '../pages/user/players'
-import { ClosetPage } from '../pages/user/closet'
-import { InboxMessagePage, InboxPage } from '../pages/user/inbox'
-import { ReportsPage } from '../pages/user/reports'
-import { OAuthPage } from '../pages/user/oauth'
-import {
-  ForgotPage,
-  LoginPage,
-  RegisterPage,
-  ResetPage,
-} from '../pages/auth'
+
+// 路由级代码分割：首屏只加载布局与当前页面。
+const HomePage = lazy(() => import('../pages/pages').then((m) => ({ default: m.HomePage })))
+const NotFoundPage = lazy(() =>
+  import('../pages/pages').then((m) => ({ default: m.NotFoundPage })),
+)
+const SkinlibListPage = lazy(() =>
+  import('../pages/skinlib/list').then((m) => ({ default: m.SkinlibListPage })),
+)
+const SkinlibDetailPage = lazy(() =>
+  import('../pages/skinlib/detail').then((m) => ({ default: m.SkinlibDetailPage })),
+)
+const SkinlibUploadPage = lazy(() =>
+  import('../pages/skinlib/upload').then((m) => ({ default: m.SkinlibUploadPage })),
+)
+const UserShell = lazy(() =>
+  import('../pages/user/shell').then((m) => ({ default: m.UserShell })),
+)
+const UserDashboardPage = lazy(() =>
+  import('../pages/user/dashboard').then((m) => ({ default: m.UserDashboardPage })),
+)
+const ProfilePage = lazy(() =>
+  import('../pages/user/profile').then((m) => ({ default: m.ProfilePage })),
+)
+const PlayersPage = lazy(() =>
+  import('../pages/user/players').then((m) => ({ default: m.PlayersPage })),
+)
+const ClosetPage = lazy(() =>
+  import('../pages/user/closet').then((m) => ({ default: m.ClosetPage })),
+)
+const InboxPage = lazy(() =>
+  import('../pages/user/inbox').then((m) => ({ default: m.InboxPage })),
+)
+const InboxMessagePage = lazy(() =>
+  import('../pages/user/inbox').then((m) => ({ default: m.InboxMessagePage })),
+)
+const ReportsPage = lazy(() =>
+  import('../pages/user/reports').then((m) => ({ default: m.ReportsPage })),
+)
+const OAuthPage = lazy(() =>
+  import('../pages/user/oauth').then((m) => ({ default: m.OAuthPage })),
+)
+const ForgotPage = lazy(() =>
+  import('../pages/auth').then((m) => ({ default: m.ForgotPage })),
+)
+const LoginPage = lazy(() =>
+  import('../pages/auth').then((m) => ({ default: m.LoginPage })),
+)
+const RegisterPage = lazy(() =>
+  import('../pages/auth').then((m) => ({ default: m.RegisterPage })),
+)
+const ResetPage = lazy(() =>
+  import('../pages/auth').then((m) => ({ default: m.ResetPage })),
+)
+
+function RouteFallback() {
+  return <div className="route-loading">加载中…</div>
+}
+
+function withSuspense(element: ReactElement) {
+  return <Suspense fallback={<RouteFallback />}>{element}</Suspense>
+}
 
 /** 需要登录的页面：未登录跳转登录页并带上回跳地址。 */
 function RequireAuth({ children }: { children: ReactElement }) {
@@ -56,27 +100,27 @@ export const routes: RouteObject[] = [
   {
     element: <SiteLayout />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'auth/login', element: <LoginPage /> },
-      { path: 'auth/register', element: <RegisterPage /> },
-      { path: 'auth/forgot', element: <ForgotPage /> },
-      { path: 'auth/reset/:uid', element: <ResetPage /> },
-      { path: 'skinlib', element: <SkinlibListPage /> },
-      { path: 'skinlib/show/:tid', element: <SkinlibDetailPage /> },
+      { index: true, element: withSuspense(<HomePage />) },
+      { path: 'auth/login', element: withSuspense(<LoginPage />) },
+      { path: 'auth/register', element: withSuspense(<RegisterPage />) },
+      { path: 'auth/forgot', element: withSuspense(<ForgotPage />) },
+      { path: 'auth/reset/:uid', element: withSuspense(<ResetPage />) },
+      { path: 'skinlib', element: withSuspense(<SkinlibListPage />) },
+      { path: 'skinlib/show/:tid', element: withSuspense(<SkinlibDetailPage />) },
       {
         path: 'skinlib/upload',
-        element: (
+        element: withSuspense(
           <RequireAuth>
             <SkinlibUploadPage />
-          </RequireAuth>
+          </RequireAuth>,
         ),
       },
       {
         path: 'user',
-        element: (
+        element: withSuspense(
           <RequireAuth>
             <UserShell />
-          </RequireAuth>
+          </RequireAuth>,
         ),
         children: [
           { index: true, element: <UserDashboardPage /> },
@@ -89,7 +133,7 @@ export const routes: RouteObject[] = [
           { path: 'oauth/manage', element: <OAuthPage /> },
         ],
       },
-      { path: '*', element: <NotFoundPage /> },
+      { path: '*', element: withSuspense(<NotFoundPage />) },
     ],
   },
 ]
