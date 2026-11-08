@@ -48,4 +48,7 @@
   材质详情/用户中心/管理端各页按需加载；`route-loading` 占位。
 - 性能基线：本地 DCL/load 约 50–80 ms，CLS 0；静态资源由端口直接输出（未压缩），
   生产建议由反向代理启用 gzip/brotli。
-- 待办：其余三个端口的 `next`/`legacy` 实机回归与 axe 完整扫描。
+- 无障碍：axe（WCAG 2 A/AA）扫描 9 个关键页面 0 violation；修复管理端选项表单
+  20 个无标签输入 + 5 个无名称开关（`aria-label`）、antd 对比度 token、
+  TDesign 描边按钮与禁用按钮文字色。
+- 待办：其余三个端口的 `next`/`legacy` 实机回归、Playwright 全绿与四端 `contract-check`。

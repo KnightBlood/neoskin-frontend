@@ -222,12 +222,14 @@ export function OptionsPage({ group }: { group: OptionGroup }) {
             >
               {field.kind === 'text' ? (
                 <Input
+                  aria-label={field.label}
                   value={String(values[field.key] ?? '')}
                   onChange={(event) => update(field.key, event.target.value)}
                 />
               ) : null}
               {field.kind === 'textarea' ? (
                 <Input.TextArea
+                  aria-label={field.label}
                   rows={field.rows ?? 3}
                   value={String(values[field.key] ?? '')}
                   onChange={(event) => update(field.key, event.target.value)}
@@ -235,6 +237,7 @@ export function OptionsPage({ group }: { group: OptionGroup }) {
               ) : null}
               {field.kind === 'number' ? (
                 <InputNumber
+                  aria-label={field.label}
                   style={{ width: '100%' }}
                   value={values[field.key] as number | undefined}
                   onChange={(next) => update(field.key, next ?? '')}
@@ -242,12 +245,14 @@ export function OptionsPage({ group }: { group: OptionGroup }) {
               ) : null}
               {field.kind === 'switch' ? (
                 <Switch
+                  aria-label={field.label}
                   checked={Boolean(values[field.key])}
                   onChange={(checked) => update(field.key, checked)}
                 />
               ) : null}
               {field.kind === 'select' ? (
                 <Select
+                  aria-label={field.label}
                   style={{ width: '100%' }}
                   value={String(values[field.key] ?? '')}
                   options={field.options}

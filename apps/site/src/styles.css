@@ -1369,3 +1369,25 @@ body {
   text-align: center;
 }
 
+/* 无障碍：描边按钮在浅色背景上使用更深的主题文字色（axe color-contrast）。 */
+.t-button--variant-outline.t-button--theme-success .t-button__text {
+  color: #1c6b45;
+}
+
+.t-button--variant-outline.t-button--theme-warning .t-button__text {
+  color: #8a4b0f;
+}
+
+.t-button--variant-outline.t-button--theme-danger .t-button__text {
+  color: #a12a24;
+}
+
+.skinlib-likes.is-liked {
+  color: #a12a24;
+}
+
+/* 禁用态按钮仍需可读（axe 不把 TDesign 的 div[disabled] 视为豁免）。 */
+.t-button--theme-primary.t-is-disabled .t-button__text {
+  color: #3d4657;
+}
+

@@ -26,10 +26,24 @@ export function AppProviders({
   children: ReactNode
 }) {
   const dark = value.bootstrap.user?.darkMode === true
+  const lightTokens = {
+    colorPrimary: '#0958d9',
+    colorLink: '#0958d9',
+    colorTextSecondary: '#595959',
+    colorTextDescription: '#595959',
+  }
   const content = (
     <ConfigProvider
       locale={zhCN}
-      theme={{ algorithm: dark ? theme.darkAlgorithm : theme.defaultAlgorithm }}
+      theme={{
+        algorithm: dark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        token: dark ? undefined : lightTokens,
+        components: dark
+          ? undefined
+          : {
+              Menu: { itemSelectedBg: '#e6f4ff', itemSelectedColor: '#0958d9' },
+            },
+      }}
     >
       <AppContext.Provider value={value}>{children}</AppContext.Provider>
     </ConfigProvider>
