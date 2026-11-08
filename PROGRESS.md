@@ -51,4 +51,5 @@
 - 无障碍：axe（WCAG 2 A/AA）扫描 9 个关键页面 0 violation；修复管理端选项表单
   20 个无标签输入 + 5 个无名称开关（`aria-label`）、antd 对比度 token、
   TDesign 描边按钮与禁用按钮文字色。
-- 待办：Playwright 全绿与四端 `contract-check`；CI 推送后跑平台矩阵。
+- Playwright 浏览器 E2E（`NEOSKIN_BROWSER_E2E=1`）：Go / .NET / Spring / Rust 四端全部通过。
+- 待办：四端 `contract-check`（Go 本地已通过，其余待起服/CI）；CI 推送后跑平台矩阵。
