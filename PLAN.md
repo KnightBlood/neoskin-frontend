@@ -5,7 +5,7 @@
 > 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成；P3 已完成；
 > P4 管理端与 P5 通信编辑器已完成（含 `/api/admin/update/info`）。
 > 2026-11-08：bootstrap 功能开关（验证/下载/角色名长度/积分规则）与邮箱验证门禁已在四个端口对齐并被站点端消费。
-> P6 进行中：Go `FRONTEND_MODE=next` 切换/回滚验证通过，78 条 GET 路由冒烟 0 个 500；已启用路由级代码分割；9 个关键页面 axe WCAG A/AA 0 violation。
+> P6 进行中：四个端口 `FRONTEND_MODE=next` 切换与 `legacy` 回滚均通过；Go 78 条 GET 路由冒烟 0 个 500；已启用路由级代码分割；9 个关键页面 axe WCAG A/AA 0 violation。
 > 仓库：<https://github.com/KnightBlood/neoskin-frontend>（`main`）。
 
 ---
@@ -503,7 +503,7 @@ pnpm -r build                       # apps/site/dist、apps/admin/dist
 - [x] bootstrap 功能开关：验证门禁、纹理下载、角色名长度、举报积分提示（四端口对齐）
 - [x] 路由级代码分割（站点主包 832 KB → 291 KB；管理端按页拆分）
 - [x] axe WCAG 2 A/AA：9 个关键页面 0 violation（含表单标签、开关名称与对比度）
-- [x] `FRONTEND_MODE=legacy` 回滚验证（Go：`/` 返回 legacy `blessing-extra`，SPA 仍可访问）
+- [x] `FRONTEND_MODE=legacy` 回滚验证（四个端口：`/` 返回 legacy `blessing-extra`，SPA 仍可访问）
 - [ ] 管理端 CRUD、通信发布/撤回、插件、更新闭环
 - [ ] 字段/文案/语言键与 PHP 版一致
 - [ ] 四个端口 `contract-check` 全绿；Playwright 全绿
