@@ -74,3 +74,4 @@
   现 `installUpdate` 传递 id，Go/Spring 对 SPA 请求返回 JSON。
 - 专用环境验证插件启停（manifest 插件 enable/disable）与更新下载/安装
   （本地 update.json + 6.0.12_patch ZIP → 下载校验 → 安装 → 标记文件落盘）。
+- Patch Release `v0.1.1` 已发布：`neoskin-frontend_0.1.1.zip`（更新安装 id 修复）。
