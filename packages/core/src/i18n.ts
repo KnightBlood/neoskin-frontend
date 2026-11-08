@@ -70,13 +70,18 @@ export async function initI18n(
       ? Promise.resolve<LocaleResources>({})
       : loadLocale(localeFallback, options).catch(() => ({})),
   ])
+  const resources: Record<string, { translation: LocaleResources }> = {
+    [locale]: { translation: primary },
+  }
+  // locale === fallback 时不能再用空回退覆盖同一个 key，否则语言包会变空。
+  if (locale !== localeFallback) {
+    resources[localeFallback] = { translation: fallback }
+  }
+
   await instance.init({
     lng: locale,
     fallbackLng: localeFallback,
-    resources: {
-      [locale]: { translation: primary },
-      [localeFallback]: { translation: fallback },
-    },
+    resources,
     interpolation: { escapeValue: false },
     returnNull: false,
   })
