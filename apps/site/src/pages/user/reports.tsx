@@ -13,7 +13,7 @@ export function reportStatusLabel(status: number): string {
 
 /** `/user/reports`：我提交的举报记录。 */
 export function ReportsPage() {
-  const { http } = useApp()
+  const { http, bootstrap } = useApp()
   const [page, setPage] = useState(1)
 
   const reports = useQuery({
@@ -24,6 +24,8 @@ export function ReportsPage() {
   })
 
   const items = reports.data?.data ?? []
+  const modification = Number(bootstrap.options.reporter_score_modification ?? 0)
+  const reward = Number(bootstrap.options.reporter_reward_score ?? 0)
   const missing =
     reports.isError &&
     (reports.error instanceof EndpointUnavailableError ||
@@ -35,6 +37,15 @@ export function ReportsPage() {
         <h1>{'我的举报'}</h1>
         <span className="user-page-subtitle">共 {reports.data?.total ?? 0} 条</span>
       </header>
+
+      {modification !== 0 || reward !== 0 ? (
+        <p className="user-banner user-banner-info">
+          {modification < 0
+            ? `提交举报将暂扣 ${Math.abs(modification)} 积分，举报通过后会返还。`
+            : ''}
+          {reward > 0 ? ` 举报通过可获得 ${reward} 积分。` : ''}
+        </p>
+      ) : null}
 
       {missing ? (
         <div className="user-banner user-banner-info">

@@ -11,6 +11,7 @@ import {
   validateTextureSize,
 } from '../../lib/texture'
 import { toast } from '../../lib/toast'
+import { isVerificationRequired } from '../../lib/verification'
 import { useApp } from '../../app/context'
 
 const TexturePreview3D = lazy(() => import('../../components/TexturePreview3D'))
@@ -35,7 +36,7 @@ export function SkinlibUploadPage() {
   const [duplicatedTid, setDuplicatedTid] = useState<number | null>(null)
 
   const user = bootstrap.user
-  const unverified = Boolean(user && !user.verified && bootstrap.features.emailVerification)
+  const unverified = isVerificationRequired(bootstrap)
   const maxFileKb = numberOption(bootstrap.options.max_upload_file_size, 1024)
   const maxWidth = numberOption(bootstrap.options.max_texture_width, 8192)
   const scorePublic = numberOption(bootstrap.options.score_per_storage, 0)
@@ -199,6 +200,13 @@ export function SkinlibUploadPage() {
           </label>
 
           {sizeError ? <Alert theme="error" message={sizeError} /> : null}
+
+          {unverified ? (
+            <Alert
+              theme="warning"
+              message={t('auth.check.verified', '请先验证邮箱后再使用完整功能。')}
+            />
+          ) : null}
 
           {contentPolicy ? (
             <div

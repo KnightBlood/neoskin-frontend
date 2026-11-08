@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Button, Dialog } from 'tdesign-react'
 import { normalizeApiError } from '@neoskin/core'
 import { useApp } from '../../app/context'
-import { fetchScoreInfo, sendVerificationEmail, signIn } from '../../api/user'
+import { fetchScoreInfo, signIn } from '../../api/user'
 import { remainingParts, remainingSignMs } from '../../lib/score'
 import { tWithParams } from '../../lib/i18n'
 import { toast } from '../../lib/toast'
@@ -43,7 +43,6 @@ export function UserDashboardPage() {
   const queryClient = useQueryClient()
 
   const [signing, setSigning] = useState(false)
-  const [sending, setSending] = useState(false)
   const [introVisible, setIntroVisible] = useState(false)
   const [now, setNow] = useState(() => Date.now())
 
@@ -135,22 +134,6 @@ export function UserDashboardPage() {
     }
   }
 
-  async function handleSendVerification() {
-    setSending(true)
-    try {
-      const result = await sendVerificationEmail(http)
-      if (result.code === 0) {
-        toast.success(result.message)
-      } else {
-        toast.error(result.message)
-      }
-    } catch (error) {
-      toast.error(normalizeApiError(error).message)
-    } finally {
-      setSending(false)
-    }
-  }
-
   return (
     <section className="user-page">
       <header className="user-page-header">
@@ -159,15 +142,6 @@ export function UserDashboardPage() {
           {t('user.cur-score', '当前积分')}：{score}
         </span>
       </header>
-
-      {bootstrap.features.emailVerification && user && !user.verified ? (
-        <div className="user-banner user-banner-warning">
-          <span>{t('auth.check.verified', '请先验证邮箱后再使用完整功能。')}</span>
-          <Button theme="warning" variant="outline" loading={sending} onClick={handleSendVerification}>
-            {t('user.verification.send', '发送验证邮件')}
-          </Button>
-        </div>
-      ) : null}
 
       <div className="user-grid">
         <div className="user-card">

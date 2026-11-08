@@ -34,6 +34,16 @@ export interface BootstrapOptions {
   score_per_player?: number
   score_per_closet_item?: number
   sign_score?: string
+  player_name_length_min?: number
+  player_name_length_max?: number
+  user_initial_score?: number
+  allow_downloading_texture?: boolean
+  require_verification?: boolean
+  reporter_score_modification?: number
+  reporter_reward_score?: number
+  return_score?: boolean
+  sign_after_zero?: boolean
+  sign_gap_time?: number
   take_back_scores_after_deletion?: boolean
   player_name_rule?: string
   custom_player_name_regexp?: string

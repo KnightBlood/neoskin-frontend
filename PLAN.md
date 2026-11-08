@@ -4,6 +4,7 @@
 > 目标版本：React 19.3 + Vite 8.3.6 + TypeScript 7.0，站点端 TDesign 1.18.6、管理端 antd 6.7.0。
 > 状态：P0（2026-11-06）、P1（2026-11-07）、P2（2026-11-07）已完成；P3 已完成；
 > P4 管理端与 P5 通信编辑器已完成（含 `/api/admin/update/info`）。
+> 2026-11-08：bootstrap 功能开关（验证/下载/角色名长度/积分规则）与邮箱验证门禁已在四个端口对齐并被站点端消费。
 > 仓库：<https://github.com/KnightBlood/neoskin-frontend>（`main`）。
 
 ---
@@ -498,6 +499,7 @@ pnpm -r build                       # apps/site/dist、apps/admin/dist
 - [ ] 登录态、CSRF、401/419/403、语言、深色模式正确
 - [x] 皮肤库上传/详情/预览/举报闭环（P2，Go 生产构建 + 浏览器验证）
 - [x] 用户中心（资料/角色/衣柜/举报/站内信/OAuth）闭环
+- [x] bootstrap 功能开关：验证门禁、纹理下载、角色名长度、举报积分提示（四端口对齐）
 - [ ] 管理端 CRUD、通信发布/撤回、插件、更新闭环
 - [ ] 字段/文案/语言键与 PHP 版一致
 - [ ] 四个端口 `contract-check` 全绿；Playwright 全绿

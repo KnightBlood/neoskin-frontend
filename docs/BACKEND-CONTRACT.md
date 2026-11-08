@@ -190,8 +190,41 @@
 `register_with_player_name`（布尔，注册时是否要求角色名）、`player_name_rule`（`official|cjk|regexp`）、`custom_player_name_regexp`、
 `navbar_color`、`sidebar_color`、`copyright_prefer`、`copyright_text`。
 
+功能开关（前端据此显示/隐藏并提供与后端一致的校验）：
+
+| 键 | 类型 | 前端行为 |
+| --- | --- | --- |
+| `require_verification` | 布尔 | `true` 且 `user.verified=false` 时显示验证提示，禁用角色/OAuth/上传/举报写操作 |
+| `allow_downloading_texture` | 布尔 | `false` 时材质详情页隐藏「下载」按钮 |
+| `player_name_length_min` / `player_name_length_max` | 整数 | 角色名长度提示与前端预校验（缺省 `3` / `16`） |
+| `user_initial_score` | 整数 | 积分说明中的初始积分（缺省 `1000`） |
+| `sign_after_zero` | 布尔 | 签到说明：积分归零后是否仍可签到 |
+| `sign_gap_time` | 整数 | 签到冷却小时数（缺省 `24`） |
+| `reporter_score_modification` | 整数 | 举报页提示「提交举报暂扣 N 积分」（`0` 不显示） |
+| `reporter_reward_score` | 整数 | 举报页提示「举报通过获得 N 积分」（`0` 不显示） |
+
+`reporter_score_modification` / `reporter_reward_score` 属于 `score` 选项组；
+`require_verification` / `allow_downloading_texture` / 角色名长度属于 `options` 组。
+
 管理端另需（可只在 admin bootstrap 中出现）：`recaptcha`、`recaptcha_site_key`、
 `recaptcha_secret_key`（不返回给前端）、`update_source`、`plugin_market_source`。
+
+### 3.5 邮箱验证门禁
+
+PHP 的 `verified` 中间件（`CheckUserVerified`）语义：
+
+> `require_verification = true` 且当前用户 `verified = false` 时，命中路由返回
+> **403**，body 为 `{"message":"请先验证邮箱后再使用完整功能。"}`（按 locale 翻译）。
+
+需要门禁的 web 路由（`/api/*` **不**门禁）：
+
+- `GET /user/player`、`GET /user/player/list`、`POST /user/player`、`DELETE /user/player/{player}`、`PUT /user/player/{player}/name`、`PUT|DELETE /user/player/{player}/textures`
+- `GET /user/oauth/manage` 及 `POST|PUT|DELETE /oauth/clients*`
+- `POST /texture`（即 `POST /skinlib`）、`PUT /texture/{texture}/{type,name,privacy}`、`DELETE /texture/{texture}`
+- `GET /skinlib/upload`、`POST /skinlib/report`
+
+前端在 `bootstrap.options.require_verification && !user.verified` 时统一显示提示条并禁用上述入口；
+后端仍必须返回 403，前端门禁不能替代后端校验。
 
 ---
 

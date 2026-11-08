@@ -365,9 +365,11 @@ export function SkinlibDetailPage() {
                 {t('user.setAsAvatar', '设为头像')}
               </Button>
             ) : null}
-            <Button variant="outline" onClick={download}>
-              {t('skinlib.show.download', '下载')}
-            </Button>
+            {bootstrap.options.allow_downloading_texture !== false ? (
+              <Button variant="outline" onClick={download}>
+                {t('skinlib.show.download', '下载')}
+              </Button>
+            ) : null}
             {bootstrap.user && bootstrap.features.reports ? (
               <Button variant="outline" onClick={() => setReportOpen(true)}>
                 {t('skinlib.report.title', '举报')}

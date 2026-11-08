@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useApp } from '../../app/context'
+import { VerificationNotice } from '../../components/VerificationNotice'
 
 interface MenuLink {
   to: string
@@ -60,6 +61,7 @@ export function UserShell() {
         </nav>
       </aside>
       <div className="user-content">
+        <VerificationNotice />
         <Outlet />
       </div>
     </div>

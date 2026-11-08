@@ -12,11 +12,12 @@ import {
   type OAuthClient,
 } from '../../api/user'
 import { PromptDialog } from '../../components/PromptDialog'
+import { isVerificationRequired } from '../../lib/verification'
 import { toast } from '../../lib/toast'
 
 /** `/user/oauth/manage`：Passport 客户端管理。 */
 export function OAuthPage() {
-  const { http } = useApp()
+  const { http, bootstrap } = useApp()
   const { t } = useTranslation()
   const queryClient = useQueryClient()
 
@@ -123,12 +124,18 @@ export function OAuthPage() {
   }
 
   const apps = clients.data ?? []
+  const verificationRequired = isVerificationRequired(bootstrap)
 
   return (
     <section className="user-page">
       <header className="user-page-header">
         <h1>{t('general.oauth-manage', 'OAuth2 应用')}</h1>
-        <Button theme="primary" onClick={() => setCreateVisible(true)}>
+        <Button
+          theme="primary"
+          disabled={verificationRequired}
+          title={verificationRequired ? t('auth.check.verified', '请先验证邮箱后再使用完整功能。') : undefined}
+          onClick={() => setCreateVisible(true)}
+        >
           {t('user.oauth.create', '创建应用')}
         </Button>
       </header>
@@ -167,12 +174,18 @@ export function OAuthPage() {
                     <td className="user-monospace">{app.redirect}</td>
                     <td>
                       <div className="user-inline-actions">
-                        <Button size="small" variant="outline" onClick={() => setRenameTarget(app)}>
+                        <Button
+                          size="small"
+                          variant="outline"
+                          disabled={verificationRequired}
+                          onClick={() => setRenameTarget(app)}
+                        >
                           {t('user.oauth.edit-name', '改名称')}
                         </Button>
                         <Button
                           size="small"
                           variant="outline"
+                          disabled={verificationRequired}
                           onClick={() => setRedirectTarget(app)}
                         >
                           {t('user.oauth.edit-redirect', '改地址')}
@@ -181,6 +194,7 @@ export function OAuthPage() {
                           size="small"
                           theme="danger"
                           variant="outline"
+                          disabled={verificationRequired}
                           onClick={() => setDeleteTarget(app)}
                         >
                           {t('user.oauth.remove', '删除')}

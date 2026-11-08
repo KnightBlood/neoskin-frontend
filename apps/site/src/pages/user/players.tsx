@@ -21,6 +21,7 @@ import {
 } from '../../lib/player'
 import { PromptDialog } from '../../components/PromptDialog'
 import { tWithParams } from '../../lib/i18n'
+import { isVerificationRequired } from '../../lib/verification'
 import { toast } from '../../lib/toast'
 
 const TexturePreview3D = lazy(() => import('../../components/TexturePreview3D'))
@@ -53,6 +54,7 @@ export function PlayersPage() {
   }, [players.data, selectedPid])
 
   const list = players.data ?? []
+  const verificationRequired = isVerificationRequired(bootstrap)
   const selected = list.find((player) => player.pid === selectedPid) ?? null
   const keyword = search.trim().toLowerCase()
   const visiblePlayers = keyword
@@ -74,8 +76,8 @@ export function PlayersPage() {
   const rules = {
     rule: String(options.player_name_rule ?? 'official'),
     regexp: String(options.custom_player_name_regexp ?? ''),
-    min: DEFAULT_PLAYER_NAME_MIN,
-    max: DEFAULT_PLAYER_NAME_MAX,
+    min: Number(options.player_name_length_min ?? DEFAULT_PLAYER_NAME_MIN),
+    max: Number(options.player_name_length_max ?? DEFAULT_PLAYER_NAME_MAX),
   }
   const cost = Number(options.score_per_player ?? 100)
 
@@ -229,7 +231,12 @@ export function PlayersPage() {
               placeholder={t('user.typeToSearch', '输入即搜索')}
               onChange={(event) => setSearch(event.target.value)}
             />
-            <Button theme="primary" onClick={() => setAddVisible(true)}>
+            <Button
+              theme="primary"
+              disabled={verificationRequired}
+              title={verificationRequired ? t('auth.check.verified', '请先验证邮箱后再使用完整功能。') : undefined}
+              onClick={() => setAddVisible(true)}
+            >
               {t('user.player.add-player', '添加新角色')}
             </Button>
           </div>
@@ -262,6 +269,7 @@ export function PlayersPage() {
                         <button
                           type="button"
                           className="user-link user-link-inline"
+                          disabled={verificationRequired}
                           onClick={(event) => {
                             event.stopPropagation()
                             setRenameTarget(player)
@@ -276,6 +284,7 @@ export function PlayersPage() {
                             size="small"
                             theme="warning"
                             variant="outline"
+                            disabled={verificationRequired}
                             onClick={(event) => {
                               event.stopPropagation()
                               setClearSkin(true)
@@ -289,6 +298,7 @@ export function PlayersPage() {
                             size="small"
                             theme="danger"
                             variant="outline"
+                            disabled={verificationRequired}
                             onClick={(event) => {
                               event.stopPropagation()
                               setDeleteTarget(player)
