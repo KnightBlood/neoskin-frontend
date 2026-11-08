@@ -52,4 +52,6 @@
   20 个无标签输入 + 5 个无名称开关（`aria-label`）、antd 对比度 token、
   TDesign 描边按钮与禁用按钮文字色。
 - Playwright 浏览器 E2E（`NEOSKIN_BROWSER_E2E=1`）：Go / .NET / Spring / Rust 四端全部通过。
-- 待办：四端 `contract-check`（Go 本地已通过，其余待起服/CI）；CI 推送后跑平台矩阵。
+- `contract-check.mjs`：四个端口（8099 / 8788 / 8799 / 8777）全部通过；
+  过程中发现并修复 Spring 未挂载契约读取端点的问题。
+- 待办：CI 推送后跑平台矩阵（macOS / Windows / Linux × x64 / aarch64）。
