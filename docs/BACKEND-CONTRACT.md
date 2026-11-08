@@ -464,9 +464,10 @@ Content-Type: application/json
 > `POST|PUT /admin/communications*` 与撤回在请求头 `X-Neoskin-Spa: 1` 存在时返回
 > `{code:0,message,data:{id,status}}`，否则保持原 302；`preview`/`import` 原本即返回 JSON。
 
-#### `GET /api/admin/status`
+#### `GET /admin/status`
 
-认证：管理员。返回运行状态 JSON（`bs` / `server` / `db` / `plugins`），供状态页直接展示。
+认证：管理员。SPA 请求（`Accept: application/json` 或 `X-Neoskin-Spa: 1`）返回运行状态 JSON
+（`bs` / `server` / `db` / `plugins`），供状态页直接展示；普通 HTML 请求继续渲染 legacy 状态页。
 
 ## 8. 上传
 

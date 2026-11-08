@@ -75,3 +75,6 @@
 - 专用环境验证插件启停（manifest 插件 enable/disable）与更新下载/安装
   （本地 update.json + 6.0.12_patch ZIP → 下载校验 → 安装 → 标记文件落盘）。
 - Patch Release `v0.1.1` 已发布：`neoskin-frontend_0.1.1.zip`（更新安装 id 修复）。
+- 管理端状态页联调：`fetchStatus` 使用 `Accept: application/json` 请求 `/admin/status`；
+  .NET / Spring / Rust 补齐内容协商后，四端状态页均能展示本实现版本与运行时信息。
+- 契约文档同步修正状态端点为 `/admin/status`（带内容协商），与代码一致。

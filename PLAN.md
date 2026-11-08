@@ -268,7 +268,7 @@ bootstrap JSON 包含：`contractVersion`、`apiBase`、`locale`、`siteName`、
 | GET | `/api/admin/communications/{id}` | 通信编辑器数据 |
 | GET | `/api/admin/dashboard` | 仪表盘统计 + 图表 |
 | GET | `/api/admin/options/{group}` | options/customize/score/resource 表单值 |
-| GET | `/api/admin/status` | 运行状态 |
+| GET | `/admin/status`（`Accept: application/json`） | 运行状态 |
 | GET | `/api/admin/update/info` | 更新信息 |
 
 其余复用既有 PHP 兼容端点（`/api/user`、`/api/players`、`/api/closet`、

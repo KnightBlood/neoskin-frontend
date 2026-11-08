@@ -160,7 +160,7 @@ router.Get("/app-next/admin/{path...}", shellHandler("admin"))
 | `/api/admin/communications/{id}` | 同上 | 同上 | 同上 | 同上 |
 | `/api/admin/dashboard` | `AdminController` 扩展 | `DashboardController` | `AdminController` | `admin` |
 | `/api/admin/options/{group}` | `AdminOptionsController` 扩展 | `OptionsController` | `OptionsController` | `options` |
-| `/api/admin/status` | `AdminController` 扩展 | `StatusController` | `StatusController` | `status` |
+| `/admin/status`（内容协商） | `AdminController` 扩展 | `AdminController` | `AdminController` | `status` |
 | `/api/admin/update/info` | `UpdateController` 扩展 | `UpdateController` | `UpdateController` | `update` |
 
 实现要点：
